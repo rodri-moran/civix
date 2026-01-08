@@ -8,7 +8,8 @@ VALUES (
            CURRENT_DATE,
            '3510000000',
            'Calle Falsa 123'
-       );
+       )
+ON CONFLICT (email) DO NOTHING;;
 
 INSERT INTO user_entity (name, last_name, email, password_hash, role, registration_date, phone, address)
 VALUES (
@@ -20,7 +21,8 @@ VALUES (
            CURRENT_DATE,
            '3510000000',
            'Calle Falsa 123'
-       );
+       )
+ON CONFLICT (email) DO NOTHING;
 
 -- CUADRILLAS (RESPONSABLES)
 
@@ -34,7 +36,8 @@ VALUES (
            CURRENT_DATE,
            '3511111111',
            'Base Municipal'
-       );
+       )
+ON CONFLICT (email) DO NOTHING;
 
 INSERT INTO user_entity (name, last_name, email, password_hash, role, registration_date, phone, address)
 VALUES (
@@ -46,7 +49,8 @@ VALUES (
            CURRENT_DATE,
            '3512222222',
            'Base Municipal'
-       );
+       )
+ON CONFLICT (email) DO NOTHING;
 
 INSERT INTO user_entity (name, last_name, email, password_hash, role, registration_date, phone, address)
 VALUES (
@@ -58,5 +62,6 @@ VALUES (
            CURRENT_DATE,
            '3513333333',
            'Base Municipal'
-       );
+       )
+ON CONFLICT (email) DO NOTHING;
 

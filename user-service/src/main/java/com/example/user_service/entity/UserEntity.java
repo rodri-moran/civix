@@ -18,6 +18,7 @@ public class UserEntity {
     private String lastName;
 
     @Email
+    @Column(unique = true, nullable = false)
     private String email;
 
     private String passwordHash;

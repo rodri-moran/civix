@@ -71,6 +71,15 @@ para la planificación y eficiencia de los servicios públicos.
 
 ---
 
+## Datos de prueba
+
+Al iniciar el sistema por primera vez, se crean automáticamente usuarios de prueba
+para facilitar la evaluación del proyecto.
+
+Los reportes, inventario y asignaciones se generan desde la aplicación,
+simulando el uso real del sistema.
+
+---
 ##  Usuarios de prueba
 
 Podés probar la aplicación sin registrarte usando los siguientes perfiles:
@@ -91,6 +100,50 @@ Podés probar la aplicación sin registrarte usando los siguientes perfiles:
 
 ---
 
+##  Ejecución local del proyecto
+
+### Requisitos
+- Docker y Docker Compose
+- Node.js (v18+)
+- Angular CLI
+- Git
+
+---
+
+###  Clonar el repositorio
+```bash
+git clone https://github.com/rodri-moran/civix.git
+```
+```bash
+cd civix
+```
+### Configurar variables de entorno
+Crear un archivo .env en la raíz del proyecto a partir del ejemplo:
+
+```bash
+cp .env.example .env
+```
+Completar las variables necesarias (credenciales y JWT secret).
+
+### Levantar backend y bases de datos
+```bash
+docker compose up --build
+```
+Los servicios se exponen a través del API Gateway.
+
+### Ejecutar el frontend
+```bash
+cd Frontend/gestion-incidentes
+npm install
+ng serve
+```
+Acceder desde el navegador a:
+
+http://localhost:4200
+
+Acceder con usuarios de prueba
+
+---
 ##  Funcionalidades por rol
 
 ### Ciudadano

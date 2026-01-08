@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: dev
   application:
     name: user-service
   jpa:
@@ -11,10 +13,10 @@ spring:
         jdbc:
           time_zone: America/Argentina/Buenos_Aires
 
-  sql:
-    init:
-      mode: never
-      data-locations: classpath:data.sql
+#  sql:
+#    init:
+#      mode: never
+#      data-locations: classpath:data.sql
 
 server:
   port: 8081
