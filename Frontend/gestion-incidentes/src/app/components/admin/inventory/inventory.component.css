@@ -1,0 +1,36 @@
+.table-row-hover:hover {
+  background-color: #f5f7fa !important;
+  cursor: pointer;
+}
+
+.badge {
+  font-size: 0.75rem;
+  border-radius: 12px;
+}
+
+.modal-content {
+  border-radius: 12px;
+}
+
+.modal-header {
+  border-bottom: none;
+}
+
+.modal-body section {
+  border-radius: 12px;
+}
+
+.btn-primary,
+.btn-success {
+  border-radius: 25px !important;
+}
+
+.form-control,
+.form-select {
+  border-radius: 10px;
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+}

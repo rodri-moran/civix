@@ -1,0 +1,31 @@
+.statistics-page h2 {
+  color: #1F2937;
+}
+
+.kpi-card {
+  border-radius: 12px;
+  background-color: #ffffff;
+  transition: transform .2s ease;
+}
+
+.kpi-card:hover {
+  transform: translateY(-4px);
+}
+
+.chart-card {
+  border-radius: 12px;
+  background-color: #ffffff;
+}
+
+.card-header {
+  font-size: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.card {
+  border: none;
+}
+
+canvas {
+  max-height: 320px;
+}

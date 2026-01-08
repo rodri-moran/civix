@@ -1,0 +1,177 @@
+<header class="text-white shadow-sm custom-header">
+  <div class="container-fluid d-flex justify-content-between align-items-center py-3 px-4">
+    <button class="btn btn-link text-white d-md-none me-3" (click)="toggleSidebar()">
+      <i class="bi bi-list fs-3"></i>
+    </button>
+
+    <!-- Logo -->
+    <div class="logo">
+      <div class="logo">
+        <a routerLink="/citizen/dashboard" class="logo-link">
+          <img src="/images/logo.png" alt="Civix" class="logo-img" />
+        </a>
+      </div>
+    </div>
+
+    <!-- Perfil / Login -->
+    <div class="dropdown">
+      <button
+        class="btn btn-outline-light d-flex align-items-center gap-2"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <span class="fs-5">👤</span>
+        <span class="fw-semibold">{{ isLoggedIn ? userName : 'Iniciar sesión' }}</span>
+      </button>
+
+      <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded">
+        <ng-container *ngIf="isLoggedIn; else guestMenu">
+          <li>
+            <a class="dropdown-item" routerLink="/perfil">
+              <i class="bi bi-person"></i> Ver Perfil
+            </a>
+          </li>
+
+          <li>
+            <a class="dropdown-item" routerLink="/configuracion">
+              <i class="bi bi-gear"></i> Configuración
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" routerLink="/cambiar-pass">
+              <i class="bi bi-lock"></i> Cambiar Contraseña
+            </a>
+          </li>
+          <li><hr class="dropdown-divider" /></li>
+          <li>
+            <button class="dropdown-item text-danger" (click)="logout()">
+              <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+            </button>
+          </li>
+        </ng-container>
+
+        <ng-template #guestMenu>
+          <li>
+            <a class="dropdown-item text-primary" routerLink="/login">
+              <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
+            </a>
+          </li>
+        </ng-template>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<div class="d-flex">
+  <div class="sidebar-overlay" [class.show]="isOpen" (click)="toggleSidebar()"></div>
+    <div class="sidebar" [class.open]="isOpen">
+      <button class="toggle-btn" (click)="toggleSidebar()">
+        <i class="bi" [ngClass]="isOpen ? 'bi-x-lg' : 'bi-list'"></i>
+      </button>
+
+      <!-- Usuario -->
+      <div class="user-box text-center mb-4" *ngIf="isOpen">
+        <div class="user-avatar mx-auto mb-2">
+          <i class="bi bi-person-circle fs-1 text-primary"></i>
+        </div>
+
+        <ng-container *ngIf="isLoggedIn; else notLogged">
+          <h6 class="fw-semibold mb-0">{{ userName }}</h6>
+          <small class="text-white">{{ roleLabel }}</small>
+        </ng-container>
+
+        <ng-template #notLogged>
+          <h6 class="fw-semibold mb-0">Invitado</h6>
+          <a routerLink="/login" class="btn btn-sm btn-light mt-2">Iniciar sesión</a>
+        </ng-template>
+      </div>
+
+      <!-- Menú -->
+      <nav class="nav flex-column mt-2" *ngIf="isOpen">
+        <ng-container *ngIf="isLoggedIn; else guestLinks">
+          <a routerLink="/perfil" routerLinkActive="active" class="nav-item-modern">
+            <i class="bi bi-person-fill"></i><span>Perfil</span>
+          </a>
+
+          <ng-container *ngIf="isAdmin; else citizenMenu">
+            <a routerLink="/admin/dashboard" routerLinkActive="active" class="nav-item-modern">
+              <i class="bi bi-people-fill"></i><span>Panel de Administración</span>
+            </a>
+          </ng-container>
+          <ng-container *ngIf="isSupervisor">
+            <a [routerLink]="['/cuadrilla']" routerLinkActive="active" class="nav-item-modern">
+              <i class="bi bi-people-fill"></i><span>Panel de Supervisor</span>
+            </a>
+          </ng-container>
+
+          <ng-template #citizenMenu>
+            <ng-container *ngIf="!isAdmin && !isSupervisor">
+              <a routerLink="/mis-reportes" routerLinkActive="active" class="nav-item-modern">
+                <i class="bi bi-journal-text"></i><span>Mis reportes</span>
+              </a>
+              <a routerLink="/reportar-incidente" routerLinkActive="active" class="nav-item-modern">
+                <i class="bi bi-exclamation-octagon"></i><span>Reportar incidentee</span>
+              </a>
+            </ng-container>
+          </ng-template>
+
+          <a routerLink="/estadisticas" routerLinkActive="active" class="nav-item-modern">
+            <i class="bi bi-bar-chart"></i><span>Estadísticas</span>
+          </a>
+
+          <a routerLink="/configuracion" routerLinkActive="active" class="nav-item-modern">
+            <i class="bi bi-gear-fill"></i><span>Configuración</span>
+          </a>
+          <a routerLink="/terms" routerLinkActive="active" class="nav-item-modern">
+            <i class="bi bi-gear-fill"></i><span>Terminos y Condiciones</span>
+          </a>
+          <a routerLink="/faq" routerLinkActive="active" class="nav-item-modern">
+            <i class="bi bi-gear-fill"></i><span>Preguntas Frecuentes</span>
+          </a>
+        </ng-container>
+
+        <ng-template #guestLinks>
+          <a routerLink="/noticias" class="nav-item-modern">
+            <i class="bi bi-newspaper"></i><span>Noticias</span>
+          </a>
+        </ng-template>
+      </nav>
+    </div>
+
+  <div class="content-wrapper">
+    <main class="flex-grow-1 pt-0">
+      <div class="px-0 px-md-4">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
+</div>
+
+<footer class="bg-dark text-white mt-5">
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <h5>Comuna Digital</h5>
+        <p class="small">
+          Sistema de gestión de incidentes para una comuna más conectada y eficiente.
+        </p>
+      </div>
+      <div class="col-md-4 mb-3">
+        <h5>Enlaces</h5>
+        <ul class="list-unstyled small">
+          <li><a href="#ayuda" class="text-white">Ayuda</a></li>
+          <li><a routerLink="/terms" class="text-white">Términos de Uso</a></li>
+          <li><a routerLink="/faq" class="text-white">Preguntas Frecuentes</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4 mb-3">
+        <h5>Contacto</h5>
+        <p><i class="bi bi-envelope-fill me-2"></i> contacto@comuna.cl</p>
+        <p><i class="bi bi-telephone-fill me-2"></i> +56 2 1234 5678</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom text-center py-3 mt-3">
+    <small>&copy; 2025 Comuna Digital. Todos los derechos reservados.</small>
+  </div>
+</footer>

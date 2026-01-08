@@ -1,0 +1,100 @@
+<div class="reports-header mb-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-1">
+      <li class="breadcrumb-item">
+        <a routerLink="">Inicio</a>
+      </li>
+      <li class="breadcrumb-item active">Cuadrillas</li>
+    </ol>
+  </nav>
+
+  <div class="d-flex align-items-center justify-content-between">
+    <h2 class="fw-bold mb-0">Cuadrillas a tu cargo</h2>
+  </div>
+</div>
+
+<div class="table-responsive d-none d-md-block">
+  <table class="table table-hover shadow-sm align-middle">
+    <thead class="table-dark text-center">
+      <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Área</th>
+        <th>Integrantes</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let squad of squads" class="text-center">
+        <td class="fw-semibold">{{ squad.name }}</td>
+        <td>{{ squad.description }}</td>
+        <td>
+          <span
+            class="badge rounded-pill px-3"
+            [ngClass]="{
+              'bg-primary': squad.area === 'ALUMBRADO',
+              'bg-warning text-dark': squad.area === 'OBRAS',
+              'bg-success': squad.area === 'RECOLECCION',
+              'bg-secondary': squad.area === 'OTRA'
+            }" 
+          >
+            {{ squad.area }}
+          </span>
+        </td>
+        <td>{{ squad.teamSize }}</td>      
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="d-block d-md-none">
+  <div class="card shadow-sm mb-3" *ngFor="let squad of squads">
+    <div class="card-body">
+
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-people-fill text-primary fs-4"></i>
+          <h6 class="fw-bold mb-0">{{ squad.name }}</h6>
+        </div>
+      </div>
+
+      <p class="text-muted mb-2">
+        {{ squad.description }}
+      </p>
+
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <span
+          class="badge"
+          [ngClass]="{
+            'bg-primary': squad.area === 'ALUMBRADO',
+            'bg-warning text-dark': squad.area === 'OBRAS',
+            'bg-success': squad.area === 'RECOLECCION',
+            'bg-secondary': squad.area === 'OTRA'
+          }"
+        >
+          {{ squad.area }}
+        </span>
+
+        <span class="text-muted">
+          <i class="bi bi-person-fill me-1"></i>
+          {{ squad.teamSize }} integrantes
+        </span>
+      </div>
+
+      <div class="d-flex justify-content-end">
+        <button
+        routerLink="/cuadrilla"
+          class="btn btn-sm btn-outline-primary"
+          
+        >
+          Ver reportes
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div *ngIf="squads.length === 0" class="alert alert-info mt-3">
+  No tenés cuadrillas asignadas actualmente.
+</div>

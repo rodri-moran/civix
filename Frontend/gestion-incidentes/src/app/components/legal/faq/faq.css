@@ -1,0 +1,8 @@
+.accordion-button {
+  font-weight: 500;
+}
+
+.accordion-item {
+  border-radius: 8px;
+  overflow: hidden;
+}

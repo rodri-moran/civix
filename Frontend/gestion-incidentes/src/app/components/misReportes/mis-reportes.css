@@ -1,0 +1,52 @@
+.report-item {
+  cursor:default;
+  background: #fff;
+  width: 100%;
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 14px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.report-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.1);
+}
+
+.report-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.report-description {
+  margin: 12px 0;
+  color: #495057;
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .card-body {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    overflow: visible;
+  }
+}
+
+.report-description,
+.card-body strong,
+.card-body span {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}

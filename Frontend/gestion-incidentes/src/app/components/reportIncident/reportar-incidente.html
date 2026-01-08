@@ -1,0 +1,165 @@
+<div class="form-wrapper">
+  <section class="bg-white rounded shadow-sm border form-container">
+    <ng-container *ngIf="isLoggedIn; else mustLogin">
+      <h2 class="mb-4 text-primary form-title">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        Reportar un Incidente
+      </h2>
+
+      <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+
+        <div class="form-section">
+          <h5 class="form-section-title">
+            <i class="bi bi-pencil-square"></i>
+            Descripción del problema
+          </h5>
+
+          <div class="mb-3">
+            <label for="title" class="form-label">Título</label>
+            <input
+              type="text"
+              id="title"
+              class="form-control"
+              placeholder="Ej: Bache en la calle principal"
+              required
+              name="title"
+              [(ngModel)]="title"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="description" class="form-label">Descripción</label>
+            <textarea
+              id="description"
+              rows="4"
+              class="form-control"
+              placeholder="Explica brevemente el incidente"
+              required
+              name="description"
+              [(ngModel)]="description"
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- SECCIÓN: UBICACIÓN -->
+        <div class="form-section">
+          <h5 class="form-section-title">
+            <i class="bi bi-geo-alt-fill"></i>
+            Ubicación
+          </h5>
+
+          <div class="mb-3">
+            <label for="address" class="form-label">Dirección</label>
+            <input
+              type="text"
+              id="address"
+              class="form-control"
+              placeholder="Ej: Av. Velez Sarsfield 661"
+              name="address"
+              [(ngModel)]="address"
+              required
+            />
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label text-muted small">
+              Tocá el mapa para marcar la ubicación exacta del incidente
+            </label>
+            <div id="map"></div>
+          </div>
+        </div>
+
+        
+
+        <!-- SECCIÓN: IMAGEN -->
+        <div class="form-section">
+          <h5 class="form-section-title">
+            <i class="bi bi-camera-fill"></i>
+            Evidencia (opcional)
+          </h5>
+
+          <div class="mb-4">
+            <label for="imageUrl" class="form-label">Subir imagen</label>
+            <input
+              type="file"
+              id="imageUrl"
+              class="form-control"
+              accept="image/*"
+            />
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <button type="submit" class="btn btn-primary btn-lg w-100 mt-4">
+          <i class="bi bi-send-fill me-2"></i>
+          Enviar Reporte
+        </button>
+      </form>
+    </ng-container>
+  </section>
+</div>
+
+<!-- Modales -->
+<div
+  class="modal fade"
+  id="successModal"
+  tabindex="-1"
+  aria-labelledby="successModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="successModalLabel">Reporte enviado</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Cerrar"
+        ></button>
+      </div>
+      <div class="modal-body">Tu reporte se envió correctamente. ¡Gracias por colaborar!</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="errorModal"
+  tabindex="-1"
+  aria-labelledby="errorModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="errorModalLabel">Error</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Cerrar"
+        ></button>
+      </div>
+      <div class="modal-body">
+        Ocurrió un error mientras se enviaba el reporte. Por favor, intenta de nuevo.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #mustLogin>
+  <div class="text-center p-5">
+    <i class="bi bi-lock-fill text-primary display-4 mb-3"></i>
+    <h4 class="text-primary mb-2">Debes iniciar sesión</h4>
+    <p class="text-muted mb-4">
+      Para enviar reportes o acceder a estas funciones, por favor inicia sesión con tu cuenta.
+    </p>
+    <a routerLink="/login" class="btn btn-primary px-4">Iniciar sesión</a>
+  </div>
+</ng-template>

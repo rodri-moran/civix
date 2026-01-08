@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: inventory-service
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        ddl-auto: update
+        jdbc:
+          time_zone: America/Argentina/Buenos_Aires
+  sql:
+    init:
+      mode: never
+      data-locations: classpath:data.sql
+
+server:
+  port: 8084
+
+jwt:
+  secret: ${JWT_SECRET}

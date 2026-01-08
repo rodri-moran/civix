@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: user-service
+  jpa:
+    hibernate:
+      ddl-auto: update
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          time_zone: America/Argentina/Buenos_Aires
+
+  sql:
+    init:
+      mode: never
+      data-locations: classpath:data.sql
+
+server:
+  port: 8081
+
+jwt:
+  secret: ${JWT_SECRET}

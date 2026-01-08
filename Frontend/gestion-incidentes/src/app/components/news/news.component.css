@@ -1,0 +1,29 @@
+.news-card {
+  border-radius: 16px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.news-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+.card-title {
+  color: #1b2a4e;
+}
+
+.card-text {
+  color: #444;
+}
+
+.btn-outline-danger {
+  border-radius: 50px;
+}
+
+.modal-content {
+  border-radius: 18px;
+}
+
+.breadcrumb {
+  background: transparent;
+}

@@ -1,0 +1,517 @@
+<nav aria-label="breadcrumb" class="mb-0">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a routerLink="/admin/dashboard">Inicio</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Inventario</li>
+  </ol>
+</nav>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h3 class="fw-bold text-dark m-0">Inventario</h3>
+
+  <div class="d-flex gap-2 m-1">
+    <button
+      class="btn btn-outline-secondary d-flex align-items-center shadow-sm rounded-pill px-3"
+      data-bs-toggle="modal"
+      data-bs-target="#movementHistoryModal"
+      (click)="loadMovements()"
+    >
+      <i class="bi bi-clock-history me-2"></i> Historial de movimientos
+    </button>
+
+    <button
+      class="btn btn-success d-flex align-items-center shadow-sm rounded-pill px-3"
+      data-bs-toggle="modal"
+      data-bs-target="#createResourceModal"
+    >
+      <i class="bi bi-plus-lg me-2"></i> Nuevo recurso
+    </button>
+  </div>
+</div>
+
+<div class="table-responsive shadow-sm rounded-4 border bg-white p-3 d-none d-md-block">
+  <table class="table table-hover align-middle mb-0 text-center">
+    <thead class="table-light border-bottom">
+      <tr class="text-secondary text-uppercase small">
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Área</th>
+        <th>Stock</th>
+        <th>Unidad</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let resource of resources; let i = index" class="table-row-hover">
+        <td>{{ resource.name }}</td>
+        <td>{{ resource.description }}</td>
+
+        <td>
+          <span
+            class="badge px-3 py-2"
+            [ngClass]="{
+              'bg-primary text-white': resource.area === 'ALUMBRADO',
+              'bg-warning text-dark': resource.area === 'OBRAS',
+              'bg-success text-white': resource.area === 'RECOLECCION',
+              'bg-info text-dark': resource.area === 'HERRAMIENTA',
+              'bg-secondary text-white': resource.area === 'OTRO'
+            }"
+          >
+            {{ resource.area }}
+          </span>
+        </td>
+
+        <td>
+          <span
+            [ngClass]="{
+              'text-success fw-bold': resource.stock > 20,
+              'text-warning fw-bold': resource.stock <= 20 && resource.stock > 5,
+              'text-danger fw-bold': resource.stock <= 5
+            }"
+          >
+            {{ resource.stock }}
+          </span>
+        </td>
+
+        <td>{{ resource.unit }}</td>
+        <td class="d-flex justify-content-center align-items-center gap-4">
+          <button
+            class="btn btn-outline-primary btn-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#movementModal"
+          >
+            <i class="bi bi-pencil-square"></i>
+          </button>
+          <!-- (click)="deleteResource"-->
+          <button
+            class="btn btn-outline-danger btn-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#deleteModal"
+            (click)="openDeleteModal(resource.id)"
+          >
+            <i class="bi bi-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="d-block d-md-none">
+  <div class="card shadow-sm mb-3" *ngFor="let resource of resources; let i = index">
+    <div class="card-body">
+
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-boxes text-primary fs-4"></i>
+          <h6 class="fw-bold mb-0">{{ resource.name }}</h6>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center text-muted mb-3 gap-2">
+        <i class="bi bi-box-seam text-secondary"></i>
+        <span>
+          Stock: <strong>{{ resource.stock }}</strong>
+        </span>
+      </div>
+
+      <div class="d-flex align-items-center text-muted mb-3 gap-2">
+        <i class="bi bi-rulers text-secondary"></i>
+        <span>
+          Unidad de medida: <strong>{{ resource.unit }}</strong>
+        </span>
+      </div>
+
+      <div class="d-flex justify-content-end gap-2">
+        <button
+          class="btn btn-outline-primary btn-sm"
+          data-bs-toggle="modal"
+          data-bs-target="#movementModal"
+        >
+          <i class="bi bi-pencil-square"></i>
+        </button>
+
+        <button
+          class="btn btn-outline-danger btn-sm"
+          data-bs-toggle="modal"
+          data-bs-target="#deleteModal"
+          (click)="openDeleteModal(resource.id)"      
+        >
+          <i class="bi bi-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CREAR RECURSO -->
+<div
+  class="modal fade"
+  id="createResourceModal"
+  tabindex="-1"
+  aria-labelledby="createResourceLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createResourceLabel">Crear recurso</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <section class="bg-white rounded shadow-sm p-4 border">
+          <form (ngSubmit)="createResource()" #resourceForm="ngForm">
+            <div class="mb-3">
+              <label for="name" class="form-label">Nombre</label>
+              <input
+                id="name"
+                class="form-control"
+                type="text"
+                required
+                [(ngModel)]="newResource.name"
+                name="name"
+                placeholder="Ej: Foco LED 100W"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="description" class="form-label">Descripción</label>
+              <textarea
+                id="description"
+                class="form-control"
+                rows="3"
+                required
+                [(ngModel)]="newResource.description"
+                name="description"
+              ></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="area" class="form-label">Área</label>
+              <select
+                id="area"
+                class="form-select"
+                required
+                [(ngModel)]="newResource.area"
+                name="area"
+              >
+                <option disabled selected value="">Seleccione un área</option>
+                <option *ngFor="let a of areas" [value]="a">{{ a }}</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="stock" class="form-label">Stock inicial</label>
+              <input
+                id="stock"
+                class="form-control"
+                type="number"
+                required
+                min="0"
+                [(ngModel)]="newResource.stock"
+                name="stock"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="unit" class="form-label">Unidad</label>
+              <input
+                id="unit"
+                class="form-control"
+                type="text"
+                required
+                [(ngModel)]="newResource.unit"
+                name="unit"
+                placeholder="Ej: unidades, litros, metros..."
+              />
+            </div>
+
+            <button class="btn btn-primary w-100 mt-2" type="submit">Crear recurso</button>
+          </form>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="movementModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header">
+        <h5 class="modal-title">Registrar movimiento</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <form (ngSubmit)="saveMovement()">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Tipo de movimiento</label>
+            <select
+              class="form-select"
+              [(ngModel)]="movement.typeMovement"
+              name="typeMovement"
+              required
+            >
+              <option value="ENTRADA">Entrada (sumar stock)</option>
+              <option value="SALIDA">Salida (restar stock)</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Recurso</label>
+            <select
+              class="form-select"
+              [(ngModel)]="movement.resourceId"
+              name="resourceId"
+              required
+            >
+              <option *ngFor="let r of resources" [value]="r.id">{{ r.name }}</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Cantidad</label>
+            <input
+              type="number"
+              class="form-control"
+              name="quantity"
+              [(ngModel)]="movement.quantity"
+              required
+              min="1"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Razón</label>
+            <textarea
+              class="form-control"
+              name="reason"
+              rows="3"
+              [(ngModel)]="movement.reason"
+              required
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-primary w-100" type="submit">Registrar movimiento</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--MODAL REGISTRO CORRECTO-->
+<div
+  class="modal fade"
+  id="successModalMovement"
+  tabindex="-1"
+  aria-labelledby="successModalMovement"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="successModalMovement">
+          Stock actualizado y movimiento registrado
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Cerrar"
+        ></button>
+      </div>
+      <div class="modal-body">¡Tu movimiento se registró correctamente!</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="errorModalMovement"
+  tabindex="-1"
+  aria-labelledby="errorModalMovement"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="errorModalMovement">Error</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Cerrar"
+        ></button>
+      </div>
+      <div class="modal-body">
+        Ocurrió un error mientras actualizabas el stock. Por favor, intenta de nuevo.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL HISTORIAL DE MOVIMIENTOS -->
+<div class="modal fade" id="movementHistoryModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header">
+        <h5 class="modal-title">Historial de movimientos</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <div *ngIf="movements.length === 0" class="text-center text-muted py-4">
+          <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+          No hay movimientos registrados.
+        </div>
+
+        <div *ngIf="movements.length > 0" class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Fecha</th>
+                <th>Tipo</th>
+                <th>Recurso</th>
+                <th>Cantidad</th>
+                <th>Razón</th>
+                <th>Usuario</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let m of movements">
+                <td>{{ m.date | date : 'short' }}</td>
+
+                <td>
+                  <span
+                    class="badge px-3 py-2"
+                    [ngClass]="{
+                      'bg-success text-white': m.typeMovement === 'ENTRADA',
+                      'bg-danger text-white': m.typeMovement === 'SALIDA'
+                    }"
+                  >
+                    {{ m.typeMovement }}
+                  </span>
+                </td>
+
+                <td>{{ m.resource.name }}</td>
+                <td class="fw-bold">{{ m.quantity }}</td>
+                <td>{{ m.reason }}</td>
+                <td>{{ m.userName }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="modal fade" id="deleteModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirmación</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>¿Está seguro que desea eliminar este recurso de forma permanente?</p>
+
+        <div class="d-flex justify-content-end gap-3">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button class="btn btn-danger" (click)="confirmDelete()">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div
+  class="modal fade"
+  id="deleteModal"
+  tabindex="-1"
+  aria-labelledby="deleteModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 shadow">
+      <!-- HEADER -->
+      <div class="modal-header border-0">
+        <h5 class="modal-title text-danger fw-bold" id="deleteModalLabel">
+          <i class="bi bi-exclamation-triangle-fill me-2"></i>
+          Eliminar recurso
+        </h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- BODY -->
+      <div class="modal-body text-center px-4">
+        <p class="mb-0 fs-6">¿Seguro que desea eliminar este recurso?</p>
+        <small class="text-muted"> Esta acción no se puede deshacer. </small>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="modal-footer border-0 justify-content-center gap-3">
+        <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">
+          Cancelar
+        </button>
+
+        <button type="button" class="btn btn-danger px-4" (click)="confirmDelete()">
+          <i class="bi bi-trash me-1"></i>
+          Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="toast align-items-center text-bg-success border-0 position-fixed bottom-0 end-0 m-4"
+  id="toastSuccess"
+  role="alert"
+  aria-live="assertive"
+  aria-atomic="true"
+>
+  <div class="d-flex">
+    <div class="toast-body">
+      <i class="bi bi-check-circle-fill me-2"></i>
+      Recurso eliminado correctamente
+    </div>
+    <button
+      type="button"
+      class="btn-close btn-close-white me-2 m-auto"
+      data-bs-dismiss="toast"
+    ></button>
+  </div>
+</div>
+
+<div
+  class="toast align-items-center text-bg-danger border-0 position-fixed bottom-0 end-0 m-4"
+  id="toastError"
+  role="alert"
+  aria-live="assertive"
+  aria-atomic="true"
+>
+  <div class="d-flex">
+    <div class="toast-body">
+      <i class="bi bi-x-circle-fill me-2"></i>
+      Error al eliminar el recurso
+    </div>
+    <button
+      type="button"
+      class="btn-close btn-close-white me-2 m-auto"
+      data-bs-dismiss="toast"
+    ></button>
+  </div>
+</div>

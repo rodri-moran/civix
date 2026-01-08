@@ -1,0 +1,93 @@
+<div class="container mt-4">
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="/">Inicio</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">Mi Perfil</li>
+    </ol>
+  </nav>
+  <div class="row">
+    <!-- Columna izquierda -->
+    <div class="col-md-3 mb-4">
+      <div class="card shadow-sm p-3 profile-side">
+        <div class="text-center">
+          <div class="profile-avatar mb-3">
+            <i class="bi bi-person-fill"></i>
+          </div>
+
+          <h5 class="fw-bold">{{ user.name }} {{ user.lastName }}</h5>
+          <span class="badge bg-primary-subtle text-primary mt-1">
+            {{ user.role }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Columna derecha -->
+    <div class="col-md-9">
+      <div class="card shadow-sm p-4">
+        <h3 class="fw-bold text-primary">Mi Perfil</h3>
+        <div class="card-header-divider"></div>
+
+        <form (ngSubmit)="saveChanges()">
+          <div class="row g-3 mt-2">
+            <!-- Nombre -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Nombre</label>
+              <input type="text" class="form-control profile-input" [(ngModel)]="editedValues.name" name="name"
+                [disabled]="!isEditing" (ngModelChange)="detectChanges()" />
+            </div>
+
+            <!-- Apellido -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Apellido</label>
+              <input type="text" class="form-control profile-input" [(ngModel)]="editedValues.lastName" name="lastName"
+                [disabled]="!isEditing" (ngModelChange)="detectChanges()" />
+            </div>
+
+            <!-- Email (NO editable) -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Email</label>
+              <input class="form-control profile-input" [value]="user.email" disabled />
+            </div>
+
+            <!-- Teléfono -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Teléfono</label>
+              <input type="text" class="form-control profile-input" [(ngModel)]="editedValues.phone" name="phone"
+                [disabled]="!isEditing" (ngModelChange)="detectChanges()" />
+            </div>
+
+            <!-- Dirección -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Dirección</label>
+              <input type="text" class="form-control profile-input" [(ngModel)]="editedValues.address" name="address"
+                [disabled]="!isEditing" (ngModelChange)="detectChanges()" />
+            </div>
+
+            <!-- Rol -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Rol</label>
+              <input class="form-control profile-input" [value]="user.role" disabled />
+            </div>
+          </div>
+
+          <div class="row mt-4 justify-content-end">
+            <div class="col-auto">
+              <button type="submit" class="btn btn-success btn-profile" [disabled]="!hasChanges || !isEditing">
+                Guardar cambios
+              </button>
+            </div>
+
+            <div class="col-auto">
+              <button type="button" class="btn btn-success btn-profile" (click)="toggleEdit()">
+                {{ isEditing ? 'Cancelar edición' : 'Editar perfil' }}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,139 @@
+
+
+body.login-page {
+  background: linear-gradient(135deg, #2c3e50, #34495e);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+body.register-page {
+  background: linear-gradient(135deg, #2c3e50, #34495e);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+body.mis-reportes-page {
+  background: linear-gradient(135deg, #2c3e50, #34495e);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+a{
+  text-decoration: none;
+}
+ .admin-header {
+    background-color: var(--color-primary, #2c3e50);
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+  }
+   aside {
+    position: sticky;
+    top: 0;
+  }
+
+  .nav-link.active {
+    background-color: #0d6efd;
+    color: white !important;
+    border-radius: 0.5rem;
+  }
+
+
+.login-card {
+  background: #1c2733;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+  padding: 2rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-card h3 {
+  font-weight: bold;
+  color: #ecf0f1;
+}
+
+.form-control {
+  border-radius: 8px;
+  background-color: #ecf0f1;
+  border: 1px solid #ccc;
+}
+
+.form-control:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.7);
+}
+
+.btn-primary {
+  width: 100%;
+  border-radius: 10px;
+  font-weight: 600;
+  padding: 0.75rem;
+  background-color: #3498db;
+  border: none;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #2980b9;
+}
+
+.extra-links {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.extra-links a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.extra-links a:hover {
+  text-decoration: underline;
+}
+
+/* -------- DROPDOWN ADMIN (GLOBAL) -------- */
+.dropdown-menu {
+  background-color: #1e2a38 !important;
+  border: none !important;
+  min-width: 200px;
+  padding: 6px 0;
+  font-weight: 500;
+  color: #e0e6ed !important;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #e0e6ed !important;
+  font-size: 0.95rem;
+  padding: 10px 16px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-item i {
+  font-size: 1rem;
+  color: #4ea8ff !important;
+}
+
+.dropdown-item:hover {
+  background-color: #253447 !important;
+  color: #ffffff !important;
+}
+
+.dropdown-divider {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dropdown-item.text-danger {
+  color: #ff6b6b !important;
+}
+
+.dropdown-item.text-danger:hover {
+  background-color: rgba(255, 107, 107, 0.1) !important;
+  color: #ff8787 !important;
+}

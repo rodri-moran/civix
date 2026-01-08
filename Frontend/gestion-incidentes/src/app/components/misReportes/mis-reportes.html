@@ -1,0 +1,129 @@
+<div>
+  <main class="flex-grow-1 px-2 px-md-0 py-3">
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/">Inicio</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Mis Reportes</li>
+      </ol>
+    </nav>
+    <h3 class="mb-4">Mis Reportes</h3>
+    <!-- <div class="report-list">
+      <div class="report-item" *ngFor="let reporte of reports">
+        <div class="report-main">
+          <div>
+            <h6 class="mb-1">{{ reporte.title }}</h6>
+            <small class="text-muted">{{ reporte.address }}</small>
+          </div>
+
+          <span class="badge rounded-pill" [ngClass]="statusLabels[reporte.status].class">
+            {{ statusLabels[reporte.status].text }}
+          </span>
+        </div>
+        {{ reporte.description }}
+        <div class="report-footer">
+          <div class="actions">
+            <i class="bi bi-eye"></i>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <div
+      class="row report-item align-items-start g-2 d-none d-md-block"
+      *ngFor="let reporte of reports"
+    >
+      <!-- INFO -->
+      <div class="col-12">
+        <h6 class="mb-1">{{ reporte.title }}</h6>
+
+        <small class="text-muted d-block mb-1">
+          <i class="bi bi-geo-alt me-1"></i>
+          {{ reporte.address }}
+        </small>
+
+        <div class="text-secondary small">
+          {{ reporte.description }}
+        </div>
+
+        <div class="d-flex align-items-center justify-content-end gap-2 mt-2">
+          <span class="badge rounded-pill fs-6" [ngClass]="statusLabels[reporte.status].class">
+            {{ statusLabels[reporte.status].text }}
+          </span>
+
+          <small class="text-muted">
+            <i class="bi bi-clock me-1"></i>
+            {{ reporte.createdAt | date : 'dd/MM/yyyy' }}
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-block d-md-none">
+      <div class="card shadow-sm mb-3" *ngFor="let reporte of reports">
+        <div class="card-body">
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <div class="d-flex align-items-center gap-2">
+              <h6 class="fw-bold mb-0">{{ reporte.title }}</h6>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center text-muted mb-3">
+            <span>
+              <i class="bi bi-geo-alt me-1"></i>
+              <strong>{{ reporte.address }}</strong>
+            </span>
+          </div>
+
+          <div class="d-flex align-items-center text-muted mb-3">
+            <span>
+              <strong>{{ reporte.description }}</strong>
+            </span>
+          </div>
+
+          <span class="badge rounded-pill fs-6"  [ngClass]="statusLabels[reporte.status].class">
+            {{ statusLabels[reporte.status].text }}
+          </span>
+
+          <small class="text-muted mb-2 m-2">
+            <i class="bi bi-clock me-1"></i>
+            {{ reporte.createdAt | date : 'dd/MM/yyyy' }}
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <!-- <table class="table table-striped table-hover shadow-sm rounded">
+      <thead class="table-dark">
+        <tr>
+          <th>Título</th>
+          <th>Descripción</th>
+          <th>Dirección</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reporte of reports; let i = index">
+          <td>{{ reporte.title }}</td>
+          <td>{{ reporte.description }}</td>
+          <td>{{ reporte.address }}</td>
+          <td>
+            <span class="badge px-3 py-2" [ngClass]="statusLabels[reporte.status].class">
+              {{ statusLabels[reporte.status].text }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table> -->
+
+    <div *ngIf="reports.length === 0" class="alert alert-info mt-3">
+      No has realizado ningún reporte todavía.
+    </div>
+  </main>
+
+  <style>
+    .custom-header {
+      background-color: var(--color-primary, #2c3e50);
+    }
+  </style>
+</div>

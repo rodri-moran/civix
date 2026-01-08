@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: auth-service
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          time_zone: America/Argentina/Buenos_Aires
+server:
+  port: 8082
+jwt:
+  secret: ${JWT_SECRET}

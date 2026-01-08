@@ -1,0 +1,74 @@
+<div class="container mt-4">
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="/admin/dashboard">Inicio</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">Preguntas Frecuentes</li>
+    </ol>
+  </nav>
+
+  <h2 class="fw-bold text-dark mb-4">Preguntas Frecuentes</h2>
+
+  <div class="accordion shadow-sm rounded-4" id="faqAccordion">
+    <!-- 1 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#faq1">
+          ¿Cómo creo mi cuenta?
+        </button>
+      </h2>
+      <div id="faq1" class="accordion-collapse collapse show">
+        <div class="accordion-body">
+          Desde el menú principal, seleccione “Registrarse” y complete el formulario.
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq2">
+          ¿Cómo recupero mi contraseña?
+        </button>
+      </h2>
+      <div id="faq2" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          Desde la pantalla de inicio de sesión seleccione “¿Olvidaste tu contraseña?” y siga las
+          instrucciones enviadas a su correo.
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq3">
+          ¿Cómo reporto un incidente?
+        </button>
+      </h2>
+      <div id="faq3" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          En el menú lateral seleccione “Reportar incidente”, complete los datos y envíe el
+          formulario.
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq4">
+          ¿Cómo elimino mis datos personales?
+        </button>
+      </h2>
+      <div id="faq4" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          Puede escribirnos a contacto@comunadigital.com solicitando la eliminación completa de su
+          cuenta y los datos asociados.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

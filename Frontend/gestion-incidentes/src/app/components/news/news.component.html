@@ -1,0 +1,233 @@
+<nav aria-label="breadcrumb" class="mb-0">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a routerLink="/admin/dashboard">Inicio</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Noticias</li>
+  </ol>
+</nav>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h3 class="fw-bold text-dark m-0">Gestión de Noticias</h3>
+
+  <button
+    class="btn btn-success shadow-sm d-flex align-items-center rounded-pill px-3"
+    data-bs-toggle="modal"
+    data-bs-target="#createNewsModal"
+  >
+    <i class="bi bi-plus-lg me-2"></i> Nueva Noticia
+  </button>
+</div>
+
+<!-- LISTA DE NOTICIAS -->
+<div class="row g-4">
+  <div
+    class="col-md-6 col-lg-4"
+    *ngFor="let n of news; let i = index"
+  >
+    <div class="card news-card shadow-sm h-100">
+      <div class="card-body d-flex flex-column">
+        <h5 class="card-title fw-bold">{{ n.title }}</h5>
+
+        <p class="text-muted small mb-2">
+          <i class="bi bi-calendar-event me-1"></i>
+          {{ n.date | date : 'dd/MM/yyyy' }}
+        </p>
+
+        <p class="card-text flex-grow-1">
+          {{ n.description }}
+        </p>
+
+        <div class="d-flex justify-content-between mt-3">
+          <button
+            class="btn btn-outline-danger btn-sm rounded-pill"
+            data-bs-toggle="modal"
+            data-bs-target="#deleteModal"
+            (click)="selectedNewsId = n.id"
+          >
+            <i class="bi bi-trash"></i> Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Si no hay noticias -->
+  <div
+    *ngIf="news.length === 0"
+    class="text-center text-muted py-5"
+  >
+    <i class="bi bi-newspaper fs-1 mb-3 d-block"></i>
+    No hay noticias creadas aún.
+  </div>
+</div>
+
+<!-- MODAL CREAR NOTICIA -->
+<div
+  class="modal fade"
+  id="createNewsModal"
+  tabindex="-1"
+  aria-labelledby="createNewsLabel"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createNewsLabel">Crear Noticia</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <form (ngSubmit)="createNews()" #newsForm="ngForm">
+        <div class="modal-body">
+
+          <div class="mb-3">
+            <label class="form-label">Título</label>
+            <input
+              class="form-control"
+              type="text"
+              required
+              [(ngModel)]="newNews.title"
+              name="title"
+              placeholder="Ej: Nueva obra en la ciudad"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Contenido</label>
+            <textarea
+              class="form-control"
+              required
+              rows="6"
+              [(ngModel)]="newNews.description"
+              name="content"
+              placeholder="Detalles de la noticia..."
+            ></textarea>
+          </div>
+          <div class="mb-3">
+    <label class="form-label">Categoría</label>
+    <select 
+      class="form-select"
+      required
+      name="category"
+      [(ngModel)]="selectedCategory">
+      
+      <option disabled selected value="">Seleccione una categoría</option>
+      <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+
+    </select>
+  </div>
+
+  
+  <div *ngIf="selectedCategory === 'Otra'" class="mb-3">
+    <label class="form-label">Especificar categoría</label>
+    <input 
+      type="text" 
+      class="form-control"
+      required
+      name="customCategory"
+      [(ngModel)]="customCategory">
+  </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="submit"
+            class="btn btn-primary w-100 rounded-pill"
+          >
+            Crear noticia
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CONFIRMAR ELIMINACIÓN -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirmación</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body text-center">
+        <p>¿Está seguro que desea eliminar esta noticia?</p>
+
+        <div class="d-flex gap-3 justify-content-center mt-4">
+          <button
+            class="btn btn-danger px-4"
+            (click)="deleteNews(selectedNewsId)"
+            data-bs-dismiss="modal"
+            
+          >
+            Eliminar
+          </button>
+
+          <button
+            class="btn btn-secondary px-4"
+            data-bs-dismiss="modal"
+          >
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ÉXITO NOTICIA -->
+<div
+  class="modal fade"
+  id="successModalNews"
+  tabindex="-1"
+  aria-labelledby="successModalNewsLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="successModalNewsLabel">
+          Noticia creada correctamente
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Cerrar"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        ¡La noticia se registró exitosamente!
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+          Aceptar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div
+  class="toast align-items-center text-bg-success border-0 position-fixed bottom-0 end-0 m-4"
+  id="toastSuccessDelete"
+  role="alert"
+  aria-live="assertive"
+  aria-atomic="true"
+>
+  <div class="d-flex">
+    <div class="toast-body">
+      <i class="bi bi-check-circle-fill me-2"></i>
+      Noticia eliminada correctamente
+    </div>
+    <button
+      type="button"
+      class="btn-close btn-close-white me-2 m-auto"
+      data-bs-dismiss="toast"
+    ></button>
+  </div>
+</div>

@@ -1,0 +1,51 @@
+<header class="header d-flex justify-content-between align-items-center px-4 bg-primary text-white">
+  <div class="d-flex align-items-center gap-3">
+    <button class="btn btn-sm btn-outline-light" (click)="toggleSidebar()">
+      <i
+        class="bi"
+        [class.bi-chevron-left]="!sidebarCollapsed"
+        [class.bi-chevron-right]="sidebarCollapsed"
+      ></i>
+    </button>
+    <span class="fw-bold">Comuna Digital</span>
+  </div>
+
+  <div class="dropdown">
+    <button
+      class="btn btn-outline-light dropdown-toggle d-flex align-items-center"
+      data-bs-toggle="dropdown"
+    >
+      <i class="bi bi-person-circle"></i>
+      <span class="ms-2">{{ userName }}</span>
+    </button>
+
+    <ul class="dropdown-menu dropdown-menu-end shadow">
+      <li><button class="dropdown-item" routerLink="/perfil">Ver Perfil</button></li>
+      <li><button class="dropdown-item" (click)="logout()">Cerrar sesión</button></li>
+    </ul>
+  </div>
+</header>
+
+<div class="d-flex">
+  <aside class="sidebar-modern border-end" [class.collapsed]="sidebarCollapsed">
+    <nav class="nav flex-column gap-2 p-3">
+      <a
+        *ngFor="let item of isAdmin ? adminMenu : citizenMenu"
+        class="nav-item-modern"
+        [routerLink]="item.route"
+        routerLinkActive="active"
+      >
+        <i [class]="item.icon"></i>
+        <span *ngIf="!sidebarCollapsed">{{ item.title }}</span>
+      </a>
+    </nav>
+  </aside>
+
+  <main class="flex-grow-1 p-4">
+    <router-outlet></router-outlet>
+  </main>
+</div>
+
+<footer class="bg-dark text-white text-center py-3 mt-4">
+  <small>&copy; 2025 Comuna Digital. Todos los derechos reservados.</small>
+</footer>
