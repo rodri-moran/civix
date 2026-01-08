@@ -16,7 +16,7 @@
   <div class="card shadow-sm">
     <div class="card-body">
       <!-- REPORTES -->
-       
+
       <h5 class="fw-semibold mb-3">Reportes asignados</h5>
       <button
         class="btn btn-outline-light d-flex align-items-center gap-2 mb-3"
@@ -72,7 +72,7 @@
                   <div
                     class="badge rounded-pill px-3 py-2 status-drop d-flex align-items-center justify-content-center"
                     [ngClass]="statusMap[reporte.status]?.class"
-                    (click)="toggleDropdown(reporte.id)"
+                    (click)="toggleDropdown(reporte.id, $event)"
                   >
                     {{ statusMap[reporte.status]?.text }}
                     <i class="bi bi-chevron-down ms-1 small"></i>
@@ -81,8 +81,14 @@
                   <!-- Dropdown de estados -->
                   <ul
                     *ngIf="openDropdownId === reporte.id"
-                    class="dropdown-menu show position-absolute mt-1 shadow-sm border-0 rounded"
-                    style="min-width: 160px; z-index: 1050"
+                    class="dropdown-menu show shadow-sm border-0 rounded"
+                    [ngStyle]="{
+                      position: 'fixed',
+                      top: dropdownPosition.top,
+                      left: dropdownPosition.left,
+                      minWidth: '160px',
+                      zIndex: 2000
+                    }"
                   >
                     <li
                       *ngFor="let key of statusKeys"
@@ -150,7 +156,7 @@
                 <div
                   class="badge rounded-pill px-3 py-2 status-drop d-flex align-items-center justify-content-center"
                   [ngClass]="statusMap[reporte.status]?.class"
-                  (click)="toggleDropdown(reporte.id)"
+                  (click)="toggleDropdown(reporte.id, $event)"
                 >
                   {{ statusMap[reporte.status]?.text }}
                   <i class="bi bi-chevron-down ms-1 small"></i>
@@ -159,8 +165,14 @@
                 <!-- Dropdown de estados -->
                 <ul
                   *ngIf="openDropdownId === reporte.id"
-                  class="dropdown-menu show position-absolute mt-1 shadow-sm border-0 rounded"
-                  style="min-width: 160px; z-index: 1050"
+                  class="dropdown-menu show shadow-sm border-0 rounded"
+                  [ngStyle]="{
+                    position: 'fixed',
+                    top: dropdownPosition.top,
+                    left: dropdownPosition.left,
+                    minWidth: '160px',
+                    zIndex: 2000
+                  }"
                 >
                   <li
                     *ngFor="let key of statusKeys"
@@ -190,7 +202,7 @@
 
       <div class="table-responsive d-none d-md-block">
         <!-- tabla cuadrillas -->
-        <table class="table  table-hover">
+        <table class="table table-hover">
           <thead class="table-dark text-center">
             <tr>
               <th>Nombre</th>
@@ -254,7 +266,7 @@
                 <i class="bi bi-person-fill me-1"></i>
                 {{ squad.teamSize }} integrantes
               </span>
-            </div>            
+            </div>
           </div>
         </div>
       </div>

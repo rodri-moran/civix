@@ -48,6 +48,7 @@ export class CuadrillaComponent implements OnInit {
   squads: Squad[] = [];
   loading = false;
   errorMessage: string = '';
+  dropdownPosition = { top: '0px', left: '0px' };
 
   constructor(
     private service: ReportServiceService,
@@ -82,8 +83,22 @@ export class CuadrillaComponent implements OnInit {
   reportToDetail?: Report;
   statusKeys = Object.keys(this.statusMap);
   openDropdownId: number | null = null;
-  toggleDropdown(reportId: number) {
-    this.openDropdownId = this.openDropdownId === reportId ? null : reportId;
+
+  toggleDropdown(reportId: number, event: MouseEvent) {
+    if (this.openDropdownId === reportId) {
+      this.openDropdownId = null;
+      return;
+    }
+
+    this.openDropdownId = reportId;
+
+    const target = event.currentTarget as HTMLElement;
+    const rect = target.getBoundingClientRect();
+
+    this.dropdownPosition = {
+      top: `${rect.bottom + 6}px`,
+      left: `${rect.left}px`,
+    };
   }
   onStatusSelect(report: Report, newStatus: string) {
     report.status = newStatus;
