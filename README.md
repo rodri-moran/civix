@@ -125,6 +125,12 @@ cp .env.example .env
 ```
 Completar las variables necesarias (credenciales y JWT secret).
 
+###  Compilar los servicios backend
+Si es la primera vez que levantás el proyecto:
+
+```bash
+mvn clean package -DskipTests
+```
 ### Levantar backend y bases de datos
 ```bash
 docker compose up --build

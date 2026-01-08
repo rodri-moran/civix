@@ -170,3 +170,38 @@ td {
 .dropdown-menu {
   z-index: 1055;
 }
+
+
+#mobileStatusModal .dropdown-item {
+  padding: 14px 16px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #212529;              /* texto bien oscuro */
+  background-color: #ffffff;   /* fondo blanco real */
+  border-bottom: 1px solid #e9ecef;
+}
+
+#mobileStatusModal .dropdown-item:last-child {
+  border-bottom: none;
+}
+
+/* Hover / tap */
+#mobileStatusModal .dropdown-item:hover,
+#mobileStatusModal .dropdown-item:active {
+  background-color: #f8f9fa;
+}
+
+/* Texto del estado */
+#mobileStatusModal .dropdown-item span:last-child {
+  color: #212529;              /* fuerza contraste */
+}
+
+/* Header más limpio */
+#mobileStatusModal .modal-header {
+  border-bottom: 1px solid #e9ecef;
+}
+
+#mobileStatusModal .modal-title {
+  font-weight: 700;
+  color: #212529;
+}

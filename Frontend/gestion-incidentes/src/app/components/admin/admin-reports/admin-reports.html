@@ -65,7 +65,7 @@
               <div
                 class="badge rounded-pill px-3 py-2 status-drop d-flex align-items-center justify-content-center"
                 [ngClass]="statusMap[reporte.status]?.class"
-                (click)="toggleDropdown(reporte.id)"
+                (click)="toggleDropdown(reporte.id, $event)"
               >
                 {{ statusMap[reporte.status]?.text }}
                 <i class="bi bi-chevron-down ms-1 small"></i>
@@ -74,8 +74,14 @@
               <!-- Dropdown de estados -->
               <ul
                 *ngIf="openDropdownId === reporte.id"
-                class="dropdown-menu show position-absolute mt-1 shadow-sm border-0 rounded"
-                style="min-width: 160px; z-index: 1050"
+                class="dropdown-menu show shadow-sm border-0 rounded"
+                [ngStyle]="{
+                  position: 'fixed',
+                  top: dropdownPosition.top,
+                  left: dropdownPosition.left,
+                  minWidth: '160px',
+                  zIndex: 2000
+                }"
               >
                 <li
                   *ngFor="let key of statusKeys"
@@ -137,9 +143,14 @@
       <div class="card-body">
         <h6 class="fw-bold">{{ reporte.title }}</h6>
         <p class="mb-1">{{ reporte.address }}</p>
-        <span class="badge" [ngClass]="statusMap[reporte.status]?.class">
+        <button
+          class="badge border-0 px-3 py-2"
+          [ngClass]="statusMap[reporte.status]?.class"
+          (click)="openMobileStatusModal(reporte)"
+        >
           {{ statusMap[reporte.status]?.text }}
-        </span>
+          <i class="bi bi-chevron-down ms-1"></i>
+        </button>
         <div class="mt-2">
           <button
             class="btn btn-sm btn-outline-primary"
@@ -162,6 +173,38 @@
         </div>
       </div>
     </div>
+
+    <div
+  class="modal fade"
+  id="mobileStatusModal"
+  tabindex="-1"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title fw-bold">Cambiar estado</h6>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body p-0">
+        <div
+          *ngFor="let key of statusKeys"
+          class="dropdown-item d-flex align-items-center gap-2"
+          (click)="onMobileStatusSelect(key)"
+        >
+          <span
+            class="badge rounded-circle"
+            [ngClass]="statusMap[key].class"
+            style="width: 12px; height: 12px"
+          ></span>
+          <span class="fw-semibold">{{ statusMap[key].text }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
   </div>
 
   <div *ngIf="reports.length === 0" class="alert alert-info mt-3">No hay ningún reporte.</div>
