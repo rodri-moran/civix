@@ -180,6 +180,31 @@ Acceder con usuarios de prueba
 
 ---
 
+## Capturas de la aplicación
+
+### Vista Ciudadano
+![Home Ciudadano](/screenshots/1.png)
+
+![Crear Reporte](/screenshots/2.png)
+
+![Mis reportes](/screenshots/3.png)
+
+---
+
+### Vista Administrador
+![Panel admin](/screenshots/7.png)
+
+![Gestión de reportes](/screenshots/4.png)
+
+![Estadísticas](/screenshots/5.png)
+
+---
+
+### Vista Cuadrilla / Supervisor
+![Reportes asignados](/screenshots/6.png)
+
+
+
 ##  Autor
 
 **Rodrigo Nicolás Moran**  
