@@ -1,51 +1,39 @@
-<section class="section-main rounded-4 shadow-sm p-5 mb-5 border">
-  <div class="d-flex flex-column gap-3">
-    <h2 class="fw-bold display-6">
-      Sistema de Gestión de Incidentes
-    </h2>
-
-    <p class="lead text-muted col-md-8">
-      Reportá, gestioná y hacé seguimiento a los incidentes de tu comuna de manera
-      eficiente y transparente.
-    </p>
-
-    <div>
-      <button
-        *ngIf="!isAdmin && !isSupervisor"
-        class="btn btn-primary btn-lg px-4"
-        routerLink="/reportar-incidente">
-        <i class="bi bi-exclamation-triangle me-2"></i>
-        Reportar Incidente
-      </button>
-    </div>
+<section class="section-main mb-5">
+  <h2>Sistema de Gestión de Incidentes Urbanos</h2>
+  <p class="section-lead">
+    Registre, gestione y haga seguimiento de incidentes en el espacio público
+    de su comuna de forma eficiente y transparente.
+  </p>
+  <div>
+    <button
+      *ngIf="!isAdmin && !isSupervisor"
+      class="btn-reportar"
+      routerLink="/reportar-incidente">
+      <i class="bi bi-plus-circle"></i>
+      Registrar un incidente
+    </button>
   </div>
 </section>
 
-<section class="mb-5">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h5 class="section-title d-flex align-items-center gap-2">
-  <i class="bi bi-newspaper"></i>
-  Noticias de la Comuna
-</h5>
-    <a href="#todas" class="text-decoration-none">Ver todas →</a>
+<section class="section-noticias mb-5">
+  <div class="section-header">
+    <h5 class="section-title">
+      <i class="bi bi-newspaper"></i>
+      Comunicados de la Comuna
+    </h5>
+    <a href="#todas" class="link-ver-todas">Ver todos los comunicados</a>
   </div>
 
-  <div class="row row-cols-1 row-cols-md-2 g-4">
-    <article class="col" *ngFor="let noticia of noticias">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body">
-          <small class="text-muted d-block mb-2">
-            {{ noticia.date | date:'dd-MM-yyyy' }}
-          </small>
-          <h4 class="card-title">{{ noticia.title }}</h4>
-          <p class="card-text">{{ noticia.description }}</p>
-          <!-- <span class="badge" [ngClass]="noticia.color">{{ noticia.category }}</span> -->
-
-          <span class="badge" [ngClass]="getBadgeColor(noticia.category)">
-            {{ noticia.category }}
-          </span>
-        </div>
+  <div class="noticias-grid">
+    <article class="noticia-card" *ngFor="let noticia of noticias">
+      <div class="noticia-meta">
+        <span class="noticia-fecha">{{ noticia.date | date:'dd-MM-yyyy' }}</span>
+        <span class="badge-categoria" [ngClass]="getBadgeColor(noticia.category)">
+          {{ noticia.category }}
+        </span>
       </div>
+      <h4 class="noticia-titulo">{{ noticia.title }}</h4>
+      <p class="noticia-desc">{{ noticia.description }}</p>
     </article>
   </div>
 </section>

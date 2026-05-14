@@ -1,42 +1,43 @@
-<nav aria-label="breadcrumb" class="mb-0">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item">
-      <a routerLink="/admin/dashboard">Inicio</a>
-    </li>
-    <li class="breadcrumb-item active" aria-current="page">Inventario</li>
-  </ol>
-</nav>
+<div class="inventory-header mb-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-2">
+      <li class="breadcrumb-item">
+        <a routerLink="/admin/dashboard">Inicio</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">Inventario</li>
+    </ol>
+  </nav>
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-  <h3 class="fw-bold text-dark m-0">Inventario</h3>
+  <div class="inventory-header-content">
+    <div>
+      <h2 class="inventory-title mb-1">Inventario</h2>
+      <p class="inventory-subtitle mb-0">
+        Administración de recursos, stock y movimientos para la operación municipal
+      </p>
+    </div>
 
-  <div class="d-flex gap-2 m-1">
-    <button
-      class="btn btn-outline-secondary d-flex align-items-center shadow-sm rounded-pill px-3"
-      data-bs-toggle="modal"
-      data-bs-target="#movementHistoryModal"
-      (click)="loadMovements()"
-    >
-      <i class="bi bi-clock-history me-2"></i> Historial de movimientos
-    </button>
+    <div class="inventory-actions-top">
+      <button class="btn inventory-history-btn" data-bs-toggle="modal" data-bs-target="#movementHistoryModal"
+        (click)="loadMovements()">
+        <i class="bi bi-clock-history"></i>
+        Historial de movimientos
+      </button>
 
-    <button
-      class="btn btn-success d-flex align-items-center shadow-sm rounded-pill px-3"
-      data-bs-toggle="modal"
-      data-bs-target="#createResourceModal"
-    >
-      <i class="bi bi-plus-lg me-2"></i> Nuevo recurso
-    </button>
+      <button class="btn inventory-new-btn" data-bs-toggle="modal" data-bs-target="#createResourceModal">
+        <i class="bi bi-plus-lg"></i>
+        Nuevo recurso
+      </button>
+    </div>
   </div>
 </div>
 
-<div class="table-responsive shadow-sm rounded-4 border bg-white p-3 d-none d-md-block">
-  <table class="table table-hover align-middle mb-0 text-center">
-    <thead class="table-light border-bottom">
-      <tr class="text-secondary text-uppercase small">
+<div class="inventory-table-card table-responsive d-none d-md-block">
+  <table class="table inventory-table align-middle mb-0">
+    <thead>
+      <tr>
         <th>Nombre</th>
         <th>Descripción</th>
-        <th>Área</th>
+        <th class="th-area">Área</th>
         <th>Stock</th>
         <th>Unidad</th>
         <th>Acciones</th>
@@ -44,55 +45,54 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let resource of resources; let i = index" class="table-row-hover">
-        <td>{{ resource.name }}</td>
-        <td>{{ resource.description }}</td>
+      <tr *ngFor="let resource of resources; let i = index">
+        <td class="resource-name-cell">
+          {{ resource.name }}
+        </td>
+
+        <td class="resource-description-cell">
+          {{ resource.description }}
+        </td>
 
         <td>
-          <span
-            class="badge px-3 py-2"
-            [ngClass]="{
-              'bg-primary text-white': resource.area === 'ALUMBRADO',
-              'bg-warning text-dark': resource.area === 'OBRAS',
-              'bg-success text-white': resource.area === 'RECOLECCION',
-              'bg-info text-dark': resource.area === 'HERRAMIENTA',
-              'bg-secondary text-white': resource.area === 'OTRO'
-            }"
-          >
+          <span class="resource-area-badge" [ngClass]="{
+              'area-alumbrado': resource.area === 'ALUMBRADO',
+              'area-obras': resource.area === 'OBRAS',
+              'area-recoleccion': resource.area === 'RECOLECCION',
+              'area-herramienta': resource.area === 'HERRAMIENTA',
+              'area-otro': resource.area === 'OTRO'
+            }">
             {{ resource.area }}
           </span>
         </td>
 
         <td>
-          <span
-            [ngClass]="{
-              'text-success fw-bold': resource.stock > 20,
-              'text-warning fw-bold': resource.stock <= 20 && resource.stock > 5,
-              'text-danger fw-bold': resource.stock <= 5
-            }"
-          >
+          <span class="resource-stock-badge" [ngClass]="{
+              'stock-high': resource.stock > 20,
+              'stock-medium': resource.stock <= 20 && resource.stock > 5,
+              'stock-low': resource.stock <= 5
+            }">
             {{ resource.stock }}
           </span>
         </td>
 
-        <td>{{ resource.unit }}</td>
-        <td class="d-flex justify-content-center align-items-center gap-4">
-          <button
-            class="btn btn-outline-primary btn-sm"
-            data-bs-toggle="modal"
-            data-bs-target="#movementModal"
-          >
-            <i class="bi bi-pencil-square"></i>
-          </button>
-          <!-- (click)="deleteResource"-->
-          <button
-            class="btn btn-outline-danger btn-sm"
-            data-bs-toggle="modal"
-            data-bs-target="#deleteModal"
-            (click)="openDeleteModal(resource.id)"
-          >
-            <i class="bi bi-trash"></i>
-          </button>
+        <td class="resource-unit-cell">
+          {{ resource.unit }}
+        </td>
+
+        <td>
+          <div class="inventory-row-actions">
+            <button class="btn inventory-movement-action-btn" data-bs-toggle="modal" data-bs-target="#movementModal"
+              title="Registrar movimiento de stock">
+              <i class="bi bi-arrow-left-right"></i>
+              Movimiento
+            </button>
+
+            <button class="btn inventory-action-btn inventory-delete-btn" data-bs-toggle="modal"
+              data-bs-target="#deleteModal" (click)="openDeleteModal(resource.id)" title="Eliminar recurso">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
         </td>
       </tr>
     </tbody>
@@ -100,284 +100,352 @@
 </div>
 
 <div class="d-block d-md-none">
-  <div class="card shadow-sm mb-3" *ngFor="let resource of resources; let i = index">
-    <div class="card-body">
+  <div class="inventory-mobile-card" *ngFor="let resource of resources; let i = index">
+    <div class="inventory-mobile-header">
+      <div>
+        <h6 class="inventory-mobile-title mb-1">
+          {{ resource.name }}
+        </h6>
 
-      <div class="d-flex align-items-center justify-content-between mb-2">
-        <div class="d-flex align-items-center gap-2">
-          <i class="bi bi-boxes text-primary fs-4"></i>
-          <h6 class="fw-bold mb-0">{{ resource.name }}</h6>
-        </div>
-      </div>
-
-      <div class="d-flex align-items-center text-muted mb-3 gap-2">
-        <i class="bi bi-box-seam text-secondary"></i>
-        <span>
-          Stock: <strong>{{ resource.stock }}</strong>
+        <span class="resource-area-badge" [ngClass]="{
+            'area-alumbrado': resource.area === 'ALUMBRADO',
+            'area-obras': resource.area === 'OBRAS',
+            'area-recoleccion': resource.area === 'RECOLECCION',
+            'area-herramienta': resource.area === 'HERRAMIENTA',
+            'area-otro': resource.area === 'OTRO'
+          }">
+          {{ resource.area }}
         </span>
       </div>
 
-      <div class="d-flex align-items-center text-muted mb-3 gap-2">
-        <i class="bi bi-rulers text-secondary"></i>
-        <span>
-          Unidad de medida: <strong>{{ resource.unit }}</strong>
-        </span>
-      </div>
+      <span class="resource-stock-badge" [ngClass]="{
+          'stock-high': resource.stock > 20,
+          'stock-medium': resource.stock <= 20 && resource.stock > 5,
+          'stock-low': resource.stock <= 5
+        }">
+        {{ resource.stock }}
+      </span>
+    </div>
 
-      <div class="d-flex justify-content-end gap-2">
-        <button
-          class="btn btn-outline-primary btn-sm"
-          data-bs-toggle="modal"
-          data-bs-target="#movementModal"
-        >
-          <i class="bi bi-pencil-square"></i>
-        </button>
+    <p class="inventory-mobile-description">
+      {{ resource.description }}
+    </p>
 
-        <button
-          class="btn btn-outline-danger btn-sm"
-          data-bs-toggle="modal"
-          data-bs-target="#deleteModal"
-          (click)="openDeleteModal(resource.id)"      
-        >
-          <i class="bi bi-trash"></i>
-        </button>
-      </div>
+    <div class="inventory-mobile-meta">
+      <span>Unidad</span>
+      <strong>{{ resource.unit }}</strong>
+    </div>
+
+    <div class="inventory-mobile-actions">
+      <button class="btn inventory-mobile-movement-btn" data-bs-toggle="modal" data-bs-target="#movementModal">
+        <i class="bi bi-arrow-left-right"></i>
+        Registrar movimiento
+      </button>
+
+      <button class="btn inventory-mobile-delete-btn" data-bs-toggle="modal" data-bs-target="#deleteModal"
+        (click)="openDeleteModal(resource.id)">
+        <i class="bi bi-trash"></i>
+      </button>
     </div>
   </div>
 </div>
 
 <!-- MODAL CREAR RECURSO -->
-<div
-  class="modal fade"
-  id="createResourceModal"
-  tabindex="-1"
-  aria-labelledby="createResourceLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="createResourceLabel">Crear recurso</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+<div class="modal fade" id="createResourceModal" tabindex="-1" aria-labelledby="createResourceLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered inventory-form-dialog">
+    <div class="modal-content inventory-form-modal">
+
+      <div class="modal-header inventory-form-header">
+        <div>
+          <span class="inventory-form-eyebrow">Gestión de inventario</span>
+          <h5 class="modal-title inventory-form-title" id="createResourceLabel">
+            Crear recurso
+          </h5>
+          <p class="inventory-form-subtitle mb-0">
+            Registrá un nuevo recurso o insumo disponible para la operación municipal.
+          </p>
+        </div>
+
+        <button type="button" class="btn-close inventory-form-close" data-bs-dismiss="modal"
+          aria-label="Cerrar"></button>
       </div>
 
-      <div class="modal-body">
-        <section class="bg-white rounded shadow-sm p-4 border">
-          <form (ngSubmit)="createResource()" #resourceForm="ngForm">
-            <div class="mb-3">
-              <label for="name" class="form-label">Nombre</label>
-              <input
-                id="name"
-                class="form-control"
-                type="text"
-                required
-                [(ngModel)]="newResource.name"
-                name="name"
-                placeholder="Ej: Foco LED 100W"
-              />
+      <div class="modal-body inventory-form-body">
+        <form (ngSubmit)="createResource()" #resourceForm="ngForm" class="inventory-form">
+          <div class="inventory-form-grid">
+
+            <div class="inventory-field inventory-field-full">
+              <label for="resourceName" class="inventory-label">Nombre</label>
+              <input id="resourceName" class="form-control inventory-control" type="text" required
+                [(ngModel)]="newResource.name" name="name" placeholder="Ej: Foco LED 100W" />
             </div>
 
-            <div class="mb-3">
-              <label for="description" class="form-label">Descripción</label>
-              <textarea
-                id="description"
-                class="form-control"
-                rows="3"
-                required
-                [(ngModel)]="newResource.description"
-                name="description"
-              ></textarea>
+            <div class="inventory-field inventory-field-full">
+              <label for="resourceDescription" class="inventory-label">
+                Descripción
+              </label>
+              <textarea id="resourceDescription" class="form-control inventory-control" rows="3" required
+                [(ngModel)]="newResource.description" name="description"
+                placeholder="Describí brevemente el recurso o insumo"></textarea>
             </div>
 
-            <div class="mb-3">
-              <label for="area" class="form-label">Área</label>
-              <select
-                id="area"
-                class="form-select"
-                required
-                [(ngModel)]="newResource.area"
-                name="area"
-              >
+            <div class="inventory-field">
+              <label for="resourceArea" class="inventory-label">Área</label>
+              <select id="resourceArea" class="form-select inventory-control" required [(ngModel)]="newResource.area"
+                name="area">
                 <option disabled selected value="">Seleccione un área</option>
                 <option *ngFor="let a of areas" [value]="a">{{ a }}</option>
               </select>
             </div>
 
-            <div class="mb-3">
-              <label for="stock" class="form-label">Stock inicial</label>
-              <input
-                id="stock"
-                class="form-control"
-                type="number"
-                required
-                min="0"
-                [(ngModel)]="newResource.stock"
-                name="stock"
-              />
+            <div class="inventory-field">
+              <label for="resourceStock" class="inventory-label">Stock inicial</label>
+              <input id="resourceStock" class="form-control inventory-control" type="number" required min="0"
+                [(ngModel)]="newResource.stock" name="stock" placeholder="0" />
             </div>
 
-            <div class="mb-3">
-              <label for="unit" class="form-label">Unidad</label>
-              <input
-                id="unit"
-                class="form-control"
-                type="text"
-                required
-                [(ngModel)]="newResource.unit"
-                name="unit"
-                placeholder="Ej: unidades, litros, metros..."
-              />
+            <div class="inventory-field inventory-field-full">
+              <label for="resourceUnit" class="inventory-label">Unidad</label>
+              <input id="resourceUnit" class="form-control inventory-control" type="text" required
+                [(ngModel)]="newResource.unit" name="unit" placeholder="Ej: unidades, litros, metros..." />
             </div>
 
-            <button class="btn btn-primary w-100 mt-2" type="submit">Crear recurso</button>
-          </form>
-        </section>
+          </div>
+
+          <div class="inventory-form-footer">
+            <button type="button" class="btn inventory-secondary-btn" data-bs-dismiss="modal">
+              Cancelar
+            </button>
+
+            <button class="btn inventory-primary-btn" type="submit">
+              Crear recurso
+            </button>
+          </div>
+        </form>
       </div>
-    </div>
-  </div>
-</div>
-<div class="modal fade" id="movementModal" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content rounded-4 shadow">
-      <div class="modal-header">
-        <h5 class="modal-title">Registrar movimiento</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
 
-      <form (ngSubmit)="saveMovement()">
-        <div class="modal-body">
-          <div class="mb-3">
-            <label class="form-label">Tipo de movimiento</label>
-            <select
-              class="form-select"
-              [(ngModel)]="movement.typeMovement"
-              name="typeMovement"
-              required
-            >
-              <option value="ENTRADA">Entrada (sumar stock)</option>
-              <option value="SALIDA">Salida (restar stock)</option>
-            </select>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Recurso</label>
-            <select
-              class="form-select"
-              [(ngModel)]="movement.resourceId"
-              name="resourceId"
-              required
-            >
-              <option *ngFor="let r of resources" [value]="r.id">{{ r.name }}</option>
-            </select>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Cantidad</label>
-            <input
-              type="number"
-              class="form-control"
-              name="quantity"
-              [(ngModel)]="movement.quantity"
-              required
-              min="1"
-            />
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Razón</label>
-            <textarea
-              class="form-control"
-              name="reason"
-              rows="3"
-              [(ngModel)]="movement.reason"
-              required
-            ></textarea>
-          </div>
-        </div>
-
-        <div class="modal-footer">
-          <button class="btn btn-primary w-100" type="submit">Registrar movimiento</button>
-        </div>
-      </form>
     </div>
   </div>
 </div>
 
-<!--MODAL REGISTRO CORRECTO-->
+<!-- MODAL REGISTRAR MOVIMIENTO -->
+<div class="modal fade" id="movementModal" tabindex="-1" aria-labelledby="movementModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered inventory-form-dialog">
+    <div class="modal-content inventory-form-modal">
+
+      <div class="modal-header inventory-form-header">
+        <div>
+          <span class="inventory-form-eyebrow">Trazabilidad de stock</span>
+          <h5 class="modal-title inventory-form-title" id="movementModalLabel">
+            Registrar movimiento
+          </h5>
+          <p class="inventory-form-subtitle mb-0">
+            Registrá una entrada o salida para mantener actualizado el stock del inventario.
+          </p>
+        </div>
+
+        <button type="button" class="btn-close inventory-form-close" data-bs-dismiss="modal"
+          aria-label="Cerrar"></button>
+      </div>
+
+      <div class="modal-body inventory-form-body">
+        <form (ngSubmit)="saveMovement()" class="inventory-form">
+          <div class="inventory-form-grid">
+
+            <div class="inventory-field">
+              <label for="movementType" class="inventory-label">
+                Tipo de movimiento
+              </label>
+              <select id="movementType" class="form-select inventory-control" [(ngModel)]="movement.typeMovement"
+                name="typeMovement" required>
+                <option value="ENTRADA">Entrada (sumar stock)</option>
+                <option value="SALIDA">Salida (restar stock)</option>
+              </select>
+            </div>
+
+            <div class="inventory-field">
+              <label for="movementResource" class="inventory-label">Recurso</label>
+              <select id="movementResource" class="form-select inventory-control" [(ngModel)]="movement.resourceId"
+                name="resourceId" required>
+                <option *ngFor="let r of resources" [value]="r.id">
+                  {{ r.name }}
+                </option>
+              </select>
+            </div>
+
+            <div class="inventory-field inventory-field-full">
+              <label for="movementQuantity" class="inventory-label">Cantidad</label>
+              <input id="movementQuantity" type="number" class="form-control inventory-control" name="quantity"
+                [(ngModel)]="movement.quantity" required min="1" placeholder="Ej: 5" />
+            </div>
+
+            <div class="inventory-field inventory-field-full">
+              <label for="movementReason" class="inventory-label">Razón</label>
+              <textarea id="movementReason" class="form-control inventory-control" name="reason" rows="3"
+                [(ngModel)]="movement.reason" required placeholder="Indicá el motivo del movimiento"></textarea>
+            </div>
+
+          </div>
+
+          <div class="inventory-form-footer">
+            <button type="button" class="btn inventory-secondary-btn" data-bs-dismiss="modal">
+              Cancelar
+            </button>
+
+            <button class="btn inventory-primary-btn" type="submit">
+              Registrar movimiento
+            </button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL REGISTRO CORRECTO -->
 <div
   class="modal fade"
   id="successModalMovement"
   tabindex="-1"
-  aria-labelledby="successModalMovement"
+  aria-labelledby="successModalMovementLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="successModalMovement">
-          Stock actualizado y movimiento registrado
-        </h5>
+  <div class="modal-dialog modal-dialog-centered inventory-message-dialog">
+    <div class="modal-content inventory-message-modal inventory-message-success">
+
+      <div class="modal-header inventory-message-header">
+        <div class="inventory-message-title-group">
+          <div class="inventory-message-icon">
+            <i class="bi bi-check-circle"></i>
+          </div>
+
+          <div>
+            <span class="inventory-message-eyebrow">Movimiento registrado</span>
+            <h5 class="modal-title inventory-message-title" id="successModalMovementLabel">
+              Stock actualizado correctamente
+            </h5>
+          </div>
+        </div>
+
         <button
           type="button"
-          class="btn-close"
+          class="btn-close inventory-message-close"
           data-bs-dismiss="modal"
           aria-label="Cerrar"
         ></button>
       </div>
-      <div class="modal-body">¡Tu movimiento se registró correctamente!</div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+
+      <div class="modal-body inventory-message-body">
+        <p class="inventory-message-text">
+          El movimiento fue registrado y el stock del recurso se actualizó correctamente.
+        </p>
       </div>
+
+      <div class="modal-footer inventory-message-footer">
+        <button
+          type="button"
+          class="btn inventory-success-btn"
+          data-bs-dismiss="modal"
+        >
+          Aceptar
+        </button>
+      </div>
+
     </div>
   </div>
 </div>
 
+<!-- MODAL ERROR MOVIMIENTO -->
 <div
   class="modal fade"
   id="errorModalMovement"
   tabindex="-1"
-  aria-labelledby="errorModalMovement"
+  aria-labelledby="errorModalMovementLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="errorModalMovement">Error</h5>
+  <div class="modal-dialog modal-dialog-centered inventory-message-dialog">
+    <div class="modal-content inventory-message-modal inventory-message-error">
+
+      <div class="modal-header inventory-message-header">
+        <div class="inventory-message-title-group">
+          <div class="inventory-message-icon inventory-message-icon-error">
+            <i class="bi bi-x-circle"></i>
+          </div>
+
+          <div>
+            <span class="inventory-message-eyebrow">Error de operación</span>
+            <h5 class="modal-title inventory-message-title" id="errorModalMovementLabel">
+              No se pudo actualizar el stock
+            </h5>
+          </div>
+        </div>
+
         <button
           type="button"
-          class="btn-close"
+          class="btn-close inventory-message-close"
           data-bs-dismiss="modal"
           aria-label="Cerrar"
         ></button>
       </div>
-      <div class="modal-body">
-        Ocurrió un error mientras actualizabas el stock. Por favor, intenta de nuevo.
+
+      <div class="modal-body inventory-message-body">
+        <p class="inventory-message-text">
+          Ocurrió un error mientras se registraba el movimiento. Revisá los datos e intentá nuevamente.
+        </p>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+
+      <div class="modal-footer inventory-message-footer">
+        <button
+          type="button"
+          class="btn inventory-secondary-btn"
+          data-bs-dismiss="modal"
+        >
+          Cerrar
+        </button>
       </div>
+
     </div>
   </div>
 </div>
 
 <!-- MODAL HISTORIAL DE MOVIMIENTOS -->
-<div class="modal fade" id="movementHistoryModal" tabindex="-1">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content rounded-4 shadow">
-      <div class="modal-header">
-        <h5 class="modal-title">Historial de movimientos</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+<div class="modal fade" id="movementHistoryModal" tabindex="-1" aria-labelledby="movementHistoryModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered movement-history-dialog">
+    <div class="modal-content movement-history-modal">
 
-      <div class="modal-body">
-        <div *ngIf="movements.length === 0" class="text-center text-muted py-4">
-          <i class="bi bi-inbox fs-1 d-block mb-2"></i>
-          No hay movimientos registrados.
+      <div class="modal-header movement-history-header">
+        <div>
+          <span class="movement-history-eyebrow">Trazabilidad de inventario</span>
+          <h5 class="modal-title movement-history-title" id="movementHistoryModalLabel">
+            Historial de movimientos
+          </h5>
+          <p class="movement-history-subtitle mb-0">
+            Consulta de entradas, salidas y movimientos registrados sobre los recursos municipales.
+          </p>
         </div>
 
-        <div *ngIf="movements.length > 0" class="table-responsive">
-          <table class="table table-hover align-middle">
-            <thead class="table-light">
+        <button type="button" class="btn-close movement-history-close" data-bs-dismiss="modal"
+          aria-label="Cerrar"></button>
+      </div>
+
+      <div class="modal-body movement-history-body">
+
+        <div *ngIf="movements.length === 0" class="movement-empty-state">
+          <div class="movement-empty-icon">
+            <i class="bi bi-inbox"></i>
+          </div>
+
+          <h6>No hay movimientos registrados</h6>
+          <p>
+            Cuando se registren entradas o salidas de stock, aparecerán en este historial.
+          </p>
+        </div>
+
+        <div *ngIf="movements.length > 0" class="movement-table-wrapper">
+          <table class="table movement-table align-middle mb-0">
+            <thead>
               <tr>
                 <th>Fecha</th>
                 <th>Tipo</th>
@@ -390,29 +458,41 @@
 
             <tbody>
               <tr *ngFor="let m of movements">
-                <td>{{ m.date | date : 'short' }}</td>
+                <td class="movement-date-cell">
+                  {{ m.date | date : 'short' }}
+                </td>
 
                 <td>
-                  <span
-                    class="badge px-3 py-2"
-                    [ngClass]="{
-                      'bg-success text-white': m.typeMovement === 'ENTRADA',
-                      'bg-danger text-white': m.typeMovement === 'SALIDA'
-                    }"
-                  >
+                  <span class="movement-type-badge" [ngClass]="{
+                      'movement-entry': m.typeMovement === 'ENTRADA',
+                      'movement-exit': m.typeMovement === 'SALIDA'
+                    }">
                     {{ m.typeMovement }}
                   </span>
                 </td>
 
-                <td>{{ m.resource.name }}</td>
-                <td class="fw-bold">{{ m.quantity }}</td>
-                <td>{{ m.reason }}</td>
-                <td>{{ m.userName }}</td>
+                <td class="movement-resource-cell">
+                  {{ m.resource.name }}
+                </td>
+
+                <td class="movement-quantity-cell">
+                  {{ m.quantity }}
+                </td>
+
+                <td class="movement-reason-cell">
+                  {{ m.reason }}
+                </td>
+
+                <td class="movement-user-cell">
+                  {{ m.userName }}
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
+
       </div>
+
     </div>
   </div>
 </div>
@@ -437,6 +517,7 @@
   </div>
 </div> -->
 
+<!-- MODAL ELIMINAR RECURSO -->
 <div
   class="modal fade"
   id="deleteModal"
@@ -444,74 +525,82 @@
   aria-labelledby="deleteModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content rounded-4 shadow">
-      <!-- HEADER -->
-      <div class="modal-header border-0">
-        <h5 class="modal-title text-danger fw-bold" id="deleteModalLabel">
-          <i class="bi bi-exclamation-triangle-fill me-2"></i>
-          Eliminar recurso
-        </h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
+  <div class="modal-dialog modal-dialog-centered inventory-delete-dialog">
+    <div class="modal-content inventory-delete-modal">
+
+      <div class="modal-header inventory-delete-header">
+        <div class="inventory-delete-title-group">
+          <div class="inventory-delete-icon">
+            <i class="bi bi-exclamation-triangle"></i>
+          </div>
+
+          <div>
+            <span class="inventory-delete-eyebrow">Acción irreversible</span>
+            <h5 class="modal-title inventory-delete-title" id="deleteModalLabel">
+              Eliminar recurso
+            </h5>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          class="btn-close inventory-delete-close"
+          data-bs-dismiss="modal"
+          aria-label="Cerrar"
+        ></button>
       </div>
 
-      <!-- BODY -->
-      <div class="modal-body text-center px-4">
-        <p class="mb-0 fs-6">¿Seguro que desea eliminar este recurso?</p>
-        <small class="text-muted"> Esta acción no se puede deshacer. </small>
+      <div class="modal-body inventory-delete-body">
+        <p class="inventory-delete-text">
+          ¿Seguro que desea eliminar este recurso?
+        </p>
+
+        <p class="inventory-delete-help">
+          Esta acción no se puede deshacer y quitará el recurso del inventario.
+        </p>
       </div>
 
-      <!-- FOOTER -->
-      <div class="modal-footer border-0 justify-content-center gap-3">
-        <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">
+      <div class="modal-footer inventory-delete-footer">
+        <button
+          type="button"
+          class="btn inventory-secondary-btn"
+          data-bs-dismiss="modal"
+        >
           Cancelar
         </button>
 
-        <button type="button" class="btn btn-danger px-4" (click)="confirmDelete()">
-          <i class="bi bi-trash me-1"></i>
+        <button
+          type="button"
+          class="btn inventory-danger-btn"
+          (click)="confirmDelete()"
+        >
+          <i class="bi bi-trash"></i>
           Eliminar
         </button>
       </div>
+
     </div>
   </div>
 </div>
 
-<div
-  class="toast align-items-center text-bg-success border-0 position-fixed bottom-0 end-0 m-4"
-  id="toastSuccess"
-  role="alert"
-  aria-live="assertive"
-  aria-atomic="true"
->
+<div class="toast align-items-center text-bg-success border-0 position-fixed bottom-0 end-0 m-4" id="toastSuccess"
+  role="alert" aria-live="assertive" aria-atomic="true">
   <div class="d-flex">
     <div class="toast-body">
       <i class="bi bi-check-circle-fill me-2"></i>
       Recurso eliminado correctamente
     </div>
-    <button
-      type="button"
-      class="btn-close btn-close-white me-2 m-auto"
-      data-bs-dismiss="toast"
-    ></button>
+    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
   </div>
 </div>
 
-<div
-  class="toast align-items-center text-bg-danger border-0 position-fixed bottom-0 end-0 m-4"
-  id="toastError"
-  role="alert"
-  aria-live="assertive"
-  aria-atomic="true"
->
+<div class="toast align-items-center text-bg-danger border-0 position-fixed bottom-0 end-0 m-4" id="toastError"
+  role="alert" aria-live="assertive" aria-atomic="true">
   <div class="d-flex">
     <div class="toast-body">
       <i class="bi bi-x-circle-fill me-2"></i>
       Error al eliminar el recurso
     </div>
-    <button
-      type="button"
-      class="btn-close btn-close-white me-2 m-auto"
-      data-bs-dismiss="toast"
-    ></button>
+    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
   </div>
 </div>

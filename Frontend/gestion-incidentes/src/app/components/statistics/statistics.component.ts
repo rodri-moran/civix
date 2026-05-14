@@ -39,9 +39,9 @@ export class StatisticsComponent implements OnInit {
   squadData: { [key: string]: number } = {};
   totalReports = 0;
 
-  constructor(private service: StatisticsService) {}
+  constructor(private service: StatisticsService) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
   ngAfterViewInit() {
     this.renderPieChartStatus();
     this.renderBarChartSquad();
@@ -65,7 +65,11 @@ export class StatisticsComponent implements OnInit {
                 this.statusData['IN_PROCESS'],
                 this.statusData['RESOLVED'],
               ],
-              backgroundColor: ['#0D6EFD', '#60A5FA', '#34D399'],
+              backgroundColor: [
+                '#ba7517',
+                '#1a4f8a',
+                '#3b6d11',
+              ],
             },
           ],
         },
@@ -87,7 +91,7 @@ export class StatisticsComponent implements OnInit {
             {
               label: 'Cantidad de reportes',
               data: Object.values(this.squadData),
-              backgroundColor: '#0D6EFD',
+              backgroundColor: '#1a4f8a',
             },
           ],
         },

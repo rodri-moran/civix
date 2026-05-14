@@ -21,9 +21,9 @@ interface Report {
 })
 export class MisReportes {
   statusLabels: any = {
-    PENDING: { text: 'Pendiente', class: 'bg-primary text-white' },
-    IN_PROCESS: { text: 'En proceso', class: 'bg-warning text-dark' },
-    RESOLVED: { text: 'Resuelto', class: 'bg-success text-white' },
+    PENDING: { text: 'Pendiente', class: 'badge-pendiente' },
+    IN_PROCESS: { text: 'En proceso', class: 'badge-proceso' },
+    RESOLVED: { text: 'Resuelto', class: 'badge-resuelto' },
   };
   reports: Report[] = [];
 

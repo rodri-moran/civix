@@ -1,52 +1,51 @@
-<header class="text-white shadow-sm admin-header">
-  <div class="container-fluid d-flex justify-content-between align-items-center py-3 px-4">
-    <!-- Botón hamburguesa -->
-    <button class="btn btn-link text-white d-md-none me-3" (click)="toggleSidebar()">
-      <i class="bi bi-list fs-3"></i>
-    </button>
+<header class="admin-header">
+  <div class="header-inner">
 
-    <!-- Logo -->
-    <div class="logo">
-      <div class="logo">
-        <a class="logo-link" (click)="goToCitizenDashboard()">
-  <img src="images/logo.png" class="logo-img" alt="Civix">
-
-</a>
-      </div>
+    <div class="header-left">
+      <button class="header-toggle-btn d-md-none" (click)="toggleSidebar()" aria-label="Abrir menu">
+        <i class="bi bi-list"></i>
+      </button>
+      <a class="logo-link" (click)="goToCitizenDashboard()">
+        <img src="images/logo.png" class="logo-img" alt="Civix" />
+      </a>
     </div>
 
-    <!-- Perfil -->
     <div class="dropdown">
       <button
-        class="btn btn-outline-light d-flex align-items-center gap-2"
+        class="user-dropdown-btn"
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
-        <span class="fs-5">👤</span>
-
-        <span class="fw-semibold">{{ hasToken ? userName : 'Iniciar sesión' }}</span>
+        <span class="user-avatar-chip">{{ userName | slice:0:2 | uppercase }}</span>
+        <span class="user-dropdown-name">{{ hasToken ? userName : 'Iniciar sesion' }}</span>
+        <i class="bi bi-chevron-down user-chevron"></i>
       </button>
 
-      <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded">
+      <ul class="dropdown-menu dropdown-menu-end civix-dropdown">
+        <li class="dropdown-user-header">
+          <span class="dropdown-user-name">{{ userName }}</span>
+          <span class="dropdown-user-role">Administrador</span>
+        </li>
+        <li><hr class="dropdown-divider" /></li>
         <li>
           <a class="dropdown-item" (click)="profile()">
-            <i class="bi bi-person"></i> Ver Perfil
+            <i class="bi bi-person"></i> Ver perfil
           </a>
         </li>
         <li>
           <a class="dropdown-item" routerLink="/admin/configuracion">
-            <i class="bi bi-gear"></i> Configuración
+            <i class="bi bi-gear"></i> Configuracion
           </a>
         </li>
         <li>
           <a class="dropdown-item" routerLink="/cambiar-pass">
-            <i class="bi bi-lock"></i> Cambiar Contraseña
+            <i class="bi bi-lock"></i> Cambiar contrasena
           </a>
         </li>
         <li><hr class="dropdown-divider" /></li>
         <li>
-          <button class="dropdown-item text-danger" (click)="logout()">
-            <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+          <button class="dropdown-item dropdown-item-danger" (click)="logout()">
+            <i class="bi bi-box-arrow-right"></i> Cerrar sesion
           </button>
         </li>
       </ul>
@@ -54,28 +53,29 @@
   </div>
 </header>
 
-<div class="d-flex">
-  <!-- Overlay -->
+<div class="layout-body">
   <div class="sidebar-overlay" [class.show]="isOpen" (click)="toggleSidebar()"></div>
 
-  <!-- Sidebar -->
-  <div class="sidebar-admin" [class.open]="isOpen">
-    <!-- Botón cerrar -->
-    <button class="toggle-btn" (click)="toggleSidebar()">
+  <nav class="sidebar-admin" [class.open]="isOpen">
+
+    <button class="toggle-btn" (click)="toggleSidebar()" aria-label="Colapsar menu">
       <i class="bi" [ngClass]="isOpen ? 'bi-x-lg' : 'bi-list'"></i>
     </button>
 
     <!-- Usuario -->
-    <div class="user-box text-center mb-4" *ngIf="isOpen">
-      <div class="user-avatar mx-auto mb-2">
-        <i class="bi bi-person-circle fs-1 text-primary"></i>
+    <div class="sidebar-user" *ngIf="isOpen">
+      <div class="sidebar-user-avatar">
+        {{ userName | slice:0:2 | uppercase }}
       </div>
-      <h6 class="fw-semibold mb-0">{{ userName }}</h6>
-      <small class="text-white">Administrador</small>
+      <div class="sidebar-user-info">
+        <span class="sidebar-user-name">{{ userName }}</span>
+        <span class="sidebar-user-role">Administrador</span>
+      </div>
     </div>
 
-    <!-- Menú -->
-    <nav class="nav flex-column mt-2" *ngIf="isOpen">
+    <!-- Menú con etiquetas de grupo -->
+    <div class="sidebar-nav" *ngIf="isOpen">
+      <span class="nav-group-label">Gestion</span>
       <a
         *ngFor="let item of menuItems"
         (click)="navigate(item.route)"
@@ -84,12 +84,51 @@
       >
         <i [class]="item.icon"></i><span>{{ item.title }}</span>
       </a>
-    </nav>
-  </div>
 
-  <!-- Contenido -->
+      <hr class="nav-divider">
+      <span class="nav-group-label">Sistema</span>
+      <a
+        (click)="navigate('/admin/configuracion')"
+        class="nav-item-modern"
+        [class.active]="currentRoute === '/admin/configuracion'"
+      >
+        <i class="bi bi-gear"></i><span>Configuracion</span>
+      </a>
+      <a
+        (click)="navigate('/admin/perfil')"
+        class="nav-item-modern"
+        [class.active]="currentRoute === '/admin/perfil'"
+      >
+        <i class="bi bi-person"></i><span>Perfil</span>
+      </a>
+    </div>
+
+    <!-- Íconos solo cuando colapsado -->
+    <div class="sidebar-icons-only" *ngIf="!isOpen">
+      <a 
+        *ngFor="let item of menuItems"
+        (click)="navigate(item.route)"
+        class="nav-item-modern"
+        [class.active]="currentRoute === item.route"
+        [title]="item.title"
+      >
+        <i [class]="item.icon"></i>
+      </a>
+      <hr class="nav-divider">
+      <a
+        (click)="navigate('/admin/configuracion')"
+        class="nav-item-modern"
+        [class.active]="currentRoute === '/admin/configuracion'"
+        title="Configuracion"
+      >
+        <i class="bi bi-gear"></i>
+      </a>
+    </div>
+
+  </nav>
+
   <div class="content-wrapper flex-grow-1">
-    <main class="flex-grow-1 p-4">
+    <main class="p-4">
       <router-outlet></router-outlet>
     </main>
   </div>

@@ -1,68 +1,73 @@
 <div class="container-fluid mt-4 statistics-page">
+
   <nav aria-label="breadcrumb" class="mb-3">
-    <ol class="breadcrumb">
+    <ol class="breadcrumb breadcrumb-civix">
       <li class="breadcrumb-item">
         <a routerLink="/">Inicio</a>
       </li>
-      <li class="breadcrumb-item active" aria-current="page">Estadísticas</li>
+      <li class="breadcrumb-item active" aria-current="page">Estadisticas</li>
     </ol>
   </nav>
-  <!-- Títulos -->
-  <h2 class="fw-bold mb-4" style="color: #1f2937">Panel de Estadísticas</h2>
+
+  <h2 class="page-title">Panel de Estadisticas</h2>
 
   <!-- KPIs -->
-  <div class="row g-4 mb-4">
-    <!-- Total de reportes -->
+  <div class="row g-3 mb-4">
+
     <div class="col-md-4">
-      <div class="card shadow-sm kpi-card">
-        <div class="card-body text-center">
-          <h6 class="text-muted mb-1">Total de Reportes</h6>
-          <h2 class="fw-bold text-primary">{{ totalReports }}</h2>
-        </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Total de reportes</span>
+        <span class="kpi-value">{{ totalReports }}</span>
+        <span class="kpi-unit">reportes registrados</span>
       </div>
     </div>
 
-    <!-- Tiempo promedio de resolución -->
     <div class="col-md-4">
-      <div class="card shadow-sm kpi-card">
-        <div class="card-body text-center">
-          <h6 class="text-muted mb-1">Tiempo promedio de resolución</h6>
-          <h2 class="fw-bold text-success">{{ avgResolutionTimeHours }}</h2>
-        </div>
+      <div class="kpi-card kpi-success">
+        <span class="kpi-label">Tiempo promedio de resolucion</span>
+        <!-- avgResolutionTimeHours ya viene formateado como "2 días 4 h" o "0 h" -->
+        <span class="kpi-value kpi-value--text">{{ avgResolutionTimeHours }}</span>
+        <span class="kpi-unit">por incidente resuelto</span>
       </div>
     </div>
 
-    <!-- Cuadrilla más eficiente -->
     <div class="col-md-4">
-      <div class="card shadow-sm kpi-card">
-        <div class="card-body text-center">
-          <h6 class="text-muted mb-1">Cuadrilla más rápida</h6>
-          <h4 class="fw-bold text-dark">{{ fastestSquad }}</h4>
-          <p class="text-muted">{{ fastestSquadTime }}</p>
-        </div>
+      <div class="kpi-card kpi-neutral">
+        <span class="kpi-label">Cuadrilla mas rapida</span>
+        <!-- fastestSquad es el nombre, fastestSquadTime es "X días Y h" -->
+        <span class="kpi-value kpi-value--text">{{ fastestSquad }}</span>
+        <span class="kpi-sub">Tiempo promedio: {{ fastestSquadTime }}</span>
       </div>
     </div>
+
   </div>
 
-  <div class="row g-4">
-    <!-- Pie chart: reportes por estado -->
+  <!-- Gráficos -->
+  <div class="row g-3">
+
     <div class="col-lg-6">
-      <div class="card shadow-sm chart-card">
-        <div class="card-header bg-white fw-semibold">Reportes por Estado</div>
-        <div class="card-body">
+      <div class="chart-card">
+        <div class="chart-header">
+          <i class="bi bi-pie-chart" aria-hidden="true"></i>
+          <span class="chart-header-title">Reportes por Estado</span>
+        </div>
+        <div class="chart-body">
           <canvas id="pieChartStatus"></canvas>
         </div>
       </div>
     </div>
 
-    <!-- Bar chart: reportes por cuadrilla -->
     <div class="col-lg-6">
-      <div class="card shadow-sm chart-card">
-        <div class="card-header bg-white fw-semibold">Reportes por Cuadrilla</div>
-        <div class="card-body">
+      <div class="chart-card">
+        <div class="chart-header">
+          <i class="bi bi-bar-chart" aria-hidden="true"></i>
+          <span class="chart-header-title">Reportes por Cuadrilla</span>
+        </div>
+        <div class="chart-body">
           <canvas id="barChartSquad"></canvas>
         </div>
       </div>
     </div>
+
   </div>
 </div>

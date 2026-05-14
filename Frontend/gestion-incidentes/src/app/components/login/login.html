@@ -1,39 +1,119 @@
 <app-loader [isLoading]="isLoading"></app-loader>
-<div class="login-card shadow-lg">
-  <h3 class="text-center text-white mb-4">Iniciar Sesión</h3>
-  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
-    <div class="mb-3">
-      <label for="email" class="form-label text-white">Correo electrónico</label>
-      <input
-        type="email"
-        class="form-control"
-        id="email"
-        placeholder="ejemplo@correo.com"
-        name="email"
-        [(ngModel)]="email"
-        required
-      />
+
+<div class="login-page">
+
+  <!-- Panel izquierdo institucional -->
+  <div class="login-panel-left">
+    <div class="panel-brand">
+      <img src="/images/logo.png" alt="Civix" class="panel-logo-img" />
     </div>
-    <div class="mb-3">
-      <label for="password" class="form-label text-white">Contraseña</label>
-      <input
-        type="password"
-        class="form-control"
-        id="password"
-        placeholder="********"
-        name="password"
-        [(ngModel)]="password"
-        required
-        minlength="6"
-      />
+
+    <div class="panel-body">
+      <p class="panel-tagline">
+        Gestion de incidentes urbanos para una comunidad mas conectada y eficiente
+      </p>
+
+      <div class="panel-features">
+        <div class="panel-feature">
+          <div class="panel-feature-icon">
+            <i class="bi bi-exclamation-triangle" aria-hidden="true"></i>
+          </div>
+          <div class="panel-feature-text">
+            <span class="panel-feature-title">Reporte ciudadano</span>
+            <span class="panel-feature-desc">
+              Registre baches, luminarias y problemas en la via publica desde cualquier dispositivo.
+            </span>
+          </div>
+        </div>
+
+        <div class="panel-feature">
+          <div class="panel-feature-icon">
+            <i class="bi bi-people" aria-hidden="true"></i>
+          </div>
+          <div class="panel-feature-text">
+            <span class="panel-feature-title">Gestion municipal</span>
+            <span class="panel-feature-desc">
+              Asigne cuadrillas, haga seguimiento y resuelva incidentes con trazabilidad completa.
+            </span>
+          </div>
+        </div>
+
+        <div class="panel-feature">
+          <div class="panel-feature-icon">
+            <i class="bi bi-bar-chart" aria-hidden="true"></i>
+          </div>
+          <div class="panel-feature-text">
+            <span class="panel-feature-title">Estadisticas en tiempo real</span>
+            <span class="panel-feature-desc">
+              Indicadores de gestion para tomar decisiones basadas en datos concretos.
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
-    <button type="submit" class="btn btn-primary">Entrar</button>
-  </form>
-  <div class="extra-links">
-    <a class="text-decoration-none fw-bold">¿Olvidaste la contraseña?</a>
-    <p class="mt-3 text-white">
-      ¿No tienes cuenta?
-      <a routerLink="/register" class="text-decoration-none fw-bold">Regístrate aquí</a>
+
+    <p class="panel-footer-text">
+      Sistema de uso institucional. Acceso restringido a usuarios registrados.
     </p>
+  </div>
+
+  <!-- Panel derecho: formulario -->
+  <div class="login-panel-right">
+    <div class="login-card">
+
+      <div class="login-card-header">
+        <h2 class="login-card-title">Acceso al sistema</h2>
+        <p class="login-card-subtitle">Ingrese sus credenciales para continuar.</p>
+      </div>
+
+      <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+
+        <div class="form-field">
+          <label for="email" class="form-label-civix">Correo electronico</label>
+          <input
+            type="email"
+            class="form-control login-input"
+            id="email"
+            placeholder="usuario@municipio.gob.ar"
+            name="email"
+            [(ngModel)]="email"
+            required
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="password" class="form-label-civix">Contrasena</label>
+          <input
+            type="password"
+            class="form-control login-input"
+            id="password"
+            placeholder="Minimo 6 caracteres"
+            name="password"
+            [(ngModel)]="password"
+            required
+            minlength="6"
+          />
+          <a class="forgot-link">Olvide mi contrasena</a>
+        </div>
+
+        <div class="login-error" *ngIf="errorMessage">
+          <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+          {{ errorMessage }}
+        </div>
+
+        <button type="submit" class="btn-login" [disabled]="isLoading">
+          <i class="bi bi-box-arrow-in-right" aria-hidden="true"></i>
+          Ingresar al sistema
+        </button>
+
+      </form>
+
+      <hr class="login-divider" />
+      <p class="register-link">
+        ¿No tiene una cuenta?
+        <a routerLink="/register">Registrese aqui</a>
+      </p>
+
+    </div>
   </div>
 </div>

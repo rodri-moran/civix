@@ -1,136 +1,213 @@
-/* ======================================
-   TARJETA LATERAL (perfil)
-   ====================================== */
-.profile-side {
-  background: linear-gradient(180deg, #ffffff 0%, #f7faff 100%);
-  border-radius: 16px;
-  padding: 25px;
-  text-align: center;
-  box-shadow:
-    0 2px 5px rgba(0, 0, 0, 0.05),
-    0 8px 20px rgba(0, 0, 0, 0.08);
+/* === BREADCRUMB === */
+.breadcrumb-civix {
+  font-size: 0.8rem;
+  background: none;
+  padding: 0;
 }
 
-.profile-side i {
-  font-size: 90px;
-  color: #0d6efd;
-}
-
-.profile-side h5 {
-  margin-top: 12px;
-  font-weight: 700;
-}
-
-.profile-side .list-group-item.active {
-  background: #0d6efd !important;
-  border: none;
-  font-weight: 600;
-  text-align: center;
-  border-radius: 8px;
-}
-
-
-/* ======================================
-   TARJETA PRINCIPAL
-   ====================================== */
-.card {
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  border-radius: 16px;
-  box-shadow:
-    0 3px 12px rgba(0, 0, 0, 0.04),
-    0 10px 28px rgba(0, 0, 0, 0.06);
-  transition: all 0.3s ease;
-}
-
-.card form {
-  animation: fadeIn 0.2s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-
-/* ======================================
-   INPUTS
-   ====================================== */
-.profile-input {
-  border-radius: 8px;
-  padding: 10px 12px;
-}
-
-.profile-input[disabled] {
-  background-color: #f2f2f2;
-  cursor: not-allowed;
-  opacity: 0.85;
-}
-
-
-/* ======================================
-   BOTONES UNIFORMES
-   ====================================== */
-.btn-profile {
-  padding: 10px 20px;
-  min-width: 140px;
-  font-size: 14px;
-  border-radius: 8px;
-  transition: 0.2s ease;
-  font-weight: 600;
-}
-
-/* Guardar (verde) */
-.btn-success.btn-profile {
-  background: #4caf50;
-  border: none;
-}
-
-.btn-success.btn-profile:hover {
-  background: #449d
-}
-
-.breadcrumb {
-  font-size: 0.85rem;
-}
-
-.breadcrumb a {
-  color: #6c757d;
+.breadcrumb-civix .breadcrumb-item a {
+  color: #1a4f8a;
   text-decoration: none;
 }
 
-.breadcrumb a:hover {
-  color: #0d6efd;
+.breadcrumb-civix .breadcrumb-item a:hover {
   text-decoration: underline;
 }
 
+.breadcrumb-civix .breadcrumb-item.active {
+  color: #7a8694;
+}
+
+.breadcrumb-civix .breadcrumb-item + .breadcrumb-item::before {
+  color: #c8d0da;
+}
+
+/* === CARD LATERAL === */
+.profile-side {
+  background: #ffffff;
+  border: 0.5px solid #dde3ea;
+  border-radius: 8px;
+  padding: 1.75rem 1.25rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* === AVATAR === */
 .profile-avatar {
-  width: 96px;
-  height: 96px;
-  margin: 0 auto;
+  width: 76px;
+  height: 76px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #0d6efd, #4dabf7);
+  background: #e6f1fb;
+  border: 2px solid #b5d4f4;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 4px;
 }
 
 .profile-avatar i {
-  font-size: 48px;
-  color: white;
+  font-size: 2rem;
+  color: #1a4f8a;
 }
 
-.card h3 {
-  margin-bottom: 0.75rem;
+/* === NOMBRE EN LATERAL === */
+.profile-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0;
 }
 
-.card-header-divider {
-  height: 1px;
-  background: linear-gradient(to right, #0d6efd, transparent);
+/* === BADGE DE ROL === */
+.role-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 4px;
+  background: #e6f1fb;
+  color: #0c447c;
+}
+
+/* === PANEL PRINCIPAL === */
+.profile-main {
+  background: #ffffff;
+  border: 0.5px solid #dde3ea;
+  border-left: 4px solid #1a4f8a;
+  border-radius: 8px;
+  padding: 1.75rem 2rem;
   margin-bottom: 1.5rem;
 }
 
-.profile-input:enabled {
+/* === TÍTULO === */
+.profile-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 0.5px solid #dde3ea;
+}
+
+/* === LABELS === */
+.form-label-civix {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #7a8694;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+/* === INPUTS === */
+.profile-input {
+  border-radius: 6px;
+  padding: 9px 12px;
+  font-size: 0.88rem;
   background-color: #ffffff;
-  border-color: #0d6efd;
-  box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.15);
+  border: 1px solid #c8d0da;
+  color: #1a1a2e;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.profile-input:focus {
+  border-color: #1a4f8a;
+  box-shadow: 0 0 0 3px rgba(26, 79, 138, 0.1);
+  outline: none;
+}
+
+/* Campos siempre bloqueados: diferenciación más clara */
+.profile-input--readonly,
+.profile-input--readonly:disabled {
+  background-color: #f5f6f8;
+  color: #7a8694;
+  border-color: #e5e9ee;
+  cursor: default;
+}
+
+/* Campos editables bloqueados por !isEditing */
+.profile-input:disabled:not(.profile-input--readonly) {
+  background-color: #fafbfc;
+  color: #5a6473;
+  border-color: #dde3ea;
+  cursor: default;
+  opacity: 1; /* evita el atenuado de Bootstrap */
+}
+
+/* Nota de campo no editable */
+.field-readonly-note {
+  display: block;
+  font-size: 0.72rem;
+  color: #b0bac8;
+  margin-top: 4px;
+}
+
+/* === ACCIONES === */
+.profile-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 0.5px solid #eef1f5;
+}
+
+/* Botón primario: guardar */
+.btn-guardar {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background-color: #1a4f8a;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.6rem 1.4rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.btn-guardar:hover:not(:disabled) {
+  background-color: #143d6e;
+}
+
+.btn-guardar:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Botón secundario: editar / cancelar */
+.btn-editar {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: none;
+  color: #1a4f8a;
+  border: 1px solid #1a4f8a;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.6rem 1.4rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.btn-editar:hover {
+  background-color: #f0f5fb;
+}
+
+/* === ANIMACIÓN === */
+.profile-main form {
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

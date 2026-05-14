@@ -1,115 +1,386 @@
-.fade-in {
-  animation: fadeIn 0.6s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.form-control:focus {
-  border-color: #0d6efd;
-  box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
-}
-
-.btn-primary:hover {
-  background-color: #0b5ed7;
-  transform: translateY(-2px);
-  transition: all 0.2s ease-in-out;
-}
-
-section {
-  overflow: visible;
-  background: linear-gradient(180deg, #ffffff 0%, #f9fbfd 100%);
-}
-.form-container {
-  background: #fff;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  width: 100%;
-  max-width: 720px;
-  padding: 32px;
-  border-radius: 20px;
-}
-
+/* === WRAPPER Y CONTENEDOR === */
 .form-wrapper {
   width: 100%;
-  max-width: 600px;
-  margin: 0 auto; 
-    min-height: calc(100vh - 80px);
+  max-width: 1120px;
+  margin: 0 auto;
+  min-height: calc(100vh - 80px);
   display: flex;
   justify-content: center;
   align-items: flex-start;
   padding: 40px 15px;
-  background: #f4f7fb;
 }
 
-#map {
-  height: 350px;
+.form-container {
+  background: #ffffff;
+  border: 0.5px solid #dde3ea;
+  border-left: 4px solid #1a4f8a;
+  border-radius: 8px;
   width: 100%;
-  border-radius: 10px;
-  margin-bottom: 20px;
+  padding: 2.25rem 2.5rem;
+  overflow: visible;
+}
+
+/* === TÍTULO DEL FORMULARIO === */
+.form-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  color: #1a1a2e;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 0.5px solid #dde3ea;
+}
+
+.form-title i {
+  color: #1a4f8a;
+  font-size: 1.1rem;
+}
+
+/* === SECCIONES DEL FORMULARIO === */
+.form-section {
+  border-bottom: 0.5px solid #eef1f5;
+}
+
+.form-section:last-of-type {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.form-section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.25rem;
+}
+
+.step-number {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #1a4f8a;
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.form-section-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #3a4557;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+/* === LABELS Y TEXTOS AUXILIARES === */
+.form-label {
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: #3a4557;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.field-hint {
+  display: block;
+  font-size: 0.78rem;
+  color: #7a8694;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+.field-required {
+  color: #c0392b;
+  margin-left: 2px;
+}
+
+/* === INPUTS === */
+.form-container .form-control {
+  border-radius: 6px;
+  padding: 9px 12px;
+  background-color: #ffffff;
+  border: 1px solid #c8d0da;
+  font-size: 0.88rem;
+  color: #1a1a2e;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-container .form-control::placeholder {
+  color: #a8b2bd;
+  font-size: 0.85rem;
+}
+
+.form-container .form-control:focus {
+  background-color: #ffffff;
+  border-color: #1a4f8a;
+  box-shadow: 0 0 0 3px rgba(26, 79, 138, 0.1);
+  outline: none;
+}
+
+/* === MAPA === */
+#map {
+  height: 300px;
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid #c8d0da;
+  margin-bottom: 0;
   z-index: 1;
   position: relative;
+  overflow: hidden;
 }
+
 .leaflet-pane,
 .leaflet-container {
   z-index: 1 !important;
 }
 
-.form-title {
-  font-weight: 700;
-  letter-spacing: -0.4px;
+/* === UPLOAD ZONE === */
+.upload-zone {
+  border: 1.5px dashed #c8d0da;
+  border-radius: 6px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  background: #f8fafc;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+  position: relative;
 }
 
-.form-section {
-  margin-bottom: 32px;
+.upload-zone:hover {
+  border-color: #1a4f8a;
+  background: #f0f5fb;
 }
 
-.form-section-title {
-  font-weight: 600;
-  margin-bottom: 16px;
+.upload-zone input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.upload-icon {
+  font-size: 1.6rem;
+  color: #b0bac8;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.upload-label {
+  font-size: 0.85rem;
+  color: #3a4557;
+  font-weight: 500;
+}
+
+.upload-hint {
+  font-size: 0.76rem;
+  color: #9aa5b2;
+  margin-top: 3px;
+}
+
+/* === ACCIONES DEL FORMULARIO === */
+.form-actions {
   display: flex;
+  justify-content: flex-end;
   align-items: center;
-  gap: 8px;
-  color: #1e2a38;
+  gap: 12px;
+  padding-top: 1rem;
+  border-top: 0.5px solid #dde3ea;
+  margin-top: 1rem;
 }
 
-.form-container .form-control {
-  border-radius: 10px;
-  padding: 12px 14px;
-  background-color: #f8f9fa;
-  border: 1px solid #dee2e6;
-  transition: all 0.2s ease;
+.required-note {
+  font-size: 0.76rem;
+  color: #9aa5b2;
+  margin-right: auto;
 }
 
-.form-container .form-control:focus {
-  background-color: #fff;
-  border-color: #0d6efd;
-  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+/* === BOTÓN PRINCIPAL === */
+.btn-enviar {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background-color: #1a4f8a;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.6rem 1.5rem;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
 }
 
-/* MAPA */
-.report-map {
-  height: 300px;
-  border-radius: 16px;
-  border: 1px solid #dee2e6;
+.btn-enviar:hover {
+  background-color: #143d6e;
+}
+
+.btn-enviar i {
+  font-size: 0.9rem;
+}
+
+/* === ANIMACIÓN ENTRADA === */
+.fade-in {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* === ESTADO: NO AUTENTICADO === */
+.mustlogin-state {
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.mustlogin-icon {
+  font-size: 2.5rem;
+  color: #1a4f8a;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.mustlogin-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 0.5rem;
+}
+
+.mustlogin-desc {
+  font-size: 0.9rem;
+  color: #5a6473;
+  max-width: 380px;
+  margin: 0 auto 1.5rem;
+  line-height: 1.6;
+}
+
+/* === MODALES === */
+.modal-content-civix {
+  border-radius: 8px;
+  border: 0.5px solid #dde3ea;
   overflow: hidden;
 }
 
-/* BOTÓN */
-.form-container .btn-primary {
-  font-weight: 600;
-  box-shadow: 0 8px 20px rgba(13,110,253,0.25);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+.modal-header-success {
+  background: #eaf3de;
+  border-bottom: 0.5px solid #c0dd97;
+  color: #27500a;
 }
 
-.form-container .btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 12px 28px rgba(13,110,253,0.35);
+.modal-header-success .modal-title {
+  color: #27500a;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.modal-header-error {
+  background: #fcebeb;
+  border-bottom: 0.5px solid #f7c1c1;
+}
+
+.modal-header-error .modal-title {
+  color: #791f1f;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.modal-body {
+  font-size: 0.9rem;
+  color: #3a4557;
+  padding: 1.25rem 1.5rem;
+}
+
+.modal-footer {
+  border-top: 0.5px solid #eef1f5;
+  padding: 0.9rem 1.5rem;
+}
+
+/* === LAYOUT EN DOS COLUMNAS === */
+.form-wrapper {
+  max-width: 1120px;
+}
+
+.form-container {
+  max-width: 1040px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.2fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+.form-column {
+  min-width: 0;
+}
+
+.form-column .form-section {
+  background: #ffffff;
+}
+
+.form-column-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+/* En desktop evitamos doble separación innecesaria dentro de la columna derecha */
+.form-column-right .form-section {
+  margin-bottom: 0;
+}
+
+/* La sección izquierda puede quedar un poco más alta visualmente */
+.form-column-left .form-section {
+  height: 100%;
+}
+
+/* Ajuste del mapa para que luzca mejor en la columna derecha */
+#map {
+  height: 320px;
+}
+
+/* Responsive: vuelve a una sola columna */
+@media (max-width: 900px) {
+  .form-wrapper {
+    max-width: 680px;
+  }
+
+  .form-container {
+    max-width: 100%;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .form-column-right {
+    gap: 0;
+  }
+
+  .form-column-right .form-section {
+    margin-bottom: 1.75rem;
+  }
+
+  .form-column-left .form-section {
+    height: auto;
+  }
+
+  #map {
+    height: 300px;
+  }
 }

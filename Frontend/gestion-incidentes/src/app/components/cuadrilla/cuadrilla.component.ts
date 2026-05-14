@@ -54,7 +54,7 @@ export class CuadrillaComponent implements OnInit {
     private service: ReportServiceService,
     private inventoryService: IventoryServiceService,
     private squadService: SquadServiceService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadSquads();
@@ -78,6 +78,18 @@ export class CuadrillaComponent implements OnInit {
         console.log('Error al obtener los reportes: ', err);
       },
     });
+  }
+
+  get totalPending(): number {
+    return this.reports.filter((report) => report.status === 'PENDING').length;
+  }
+
+  get totalInProcess(): number {
+    return this.reports.filter((report) => report.status === 'IN_PROCESS').length;
+  }
+
+  get totalResolved(): number {
+    return this.reports.filter((report) => report.status === 'RESOLVED').length;
   }
 
   reportToDetail?: Report;

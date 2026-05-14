@@ -1,63 +1,96 @@
-<nav aria-label="breadcrumb" class="mb-0">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a routerLink="/admin/dashboard">Inicio</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Cuadrillas</li>
-  </ol>
-</nav>
-<div class="d-flex justify-content-between align-items-center mb-4">
-  <h3 class="fw-bold text-dark m-0">Cuadrillas</h3>
-  <button
-    class="btn btn-success d-flex align-items-center shadow-sm rounded-pill px-3"
-    data-bs-toggle="modal"
-    data-bs-target="#createModal"
-  >
-    <i class="bi bi-plus-lg me-2"></i> Nueva cuadrilla
-  </button>
+<div class="squads-header mb-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-2">
+      <li class="breadcrumb-item">
+        <a routerLink="/admin/dashboard">Inicio</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">Cuadrillas</li>
+    </ol>
+  </nav>
+
+  <div class="squads-header-content">
+    <div>
+      <h2 class="squads-title mb-1">Cuadrillas</h2>
+      <p class="squads-subtitle mb-0">
+        Administración de equipos operativos para la atención de incidentes municipales
+      </p>
+    </div>
+
+    <button
+      class="btn new-squad-btn"
+      data-bs-toggle="modal"
+      data-bs-target="#createModal"
+    >
+      <i class="bi bi-plus-lg"></i>
+      Nueva cuadrilla
+    </button>
+  </div>
 </div>
 
-<div class="table-responsive shadow-sm rounded-4 border bg-white p-3 d-none d-md-block">
-  <table class="table table-hover align-middle mb-0">
-    <thead class="table-light border-bottom">
-      <tr class="text-secondary text-uppercase small">
+<div class="squads-table-card table-responsive d-none d-md-block">
+  <table class="table squads-table align-middle mb-0">
+    <thead>
+      <tr>
         <th>Nombre</th>
         <th>Descripción</th>
         <th>Área</th>
         <th>Integrantes</th>
-        <th class="text-center">Acciones</th>
+        <th>Acciones</th>
       </tr>
     </thead>
-    <tbody>
-      <tr *ngFor="let squad of squads; let i = index" class="table-row-hover">
-        <td>{{ squad.name }}</td>
-        <td>{{ squad.description }}</td>
-        <td
-          [ngClass]="{
-            'text-danger': squad.area === 'RECOLECCION',
-            'text-primary': squad.area === 'OBRAS',
-            'text-info': squad.area === 'ALUMBRADO'
-          }"
-        >
-          {{ squad.area }}
-        </td>
-        <td>{{ squad.teamSize }}</td>
-        <td class="d-flex justify-content-center align-items-center gap-4">
-          <button
-            class="btn btn-outline-primary btn-sm"
-            data-bs-toggle="modal"
-            data-bs-target="#editModal"
-            (click)="openEditModal(squad)"
-          >
-            <i class="bi bi-pencil-square"></i>
-          </button>
 
-          <button
-            class="btn btn-outline-danger btn-sm"
-            data-bs-toggle="modal"
-            data-bs-target="#deleteModal"
-            (click)="openDeleteModal(squad.id)"
+    <tbody>
+      <tr *ngFor="let squad of squads; let i = index">
+        <td class="squad-name-cell">
+          {{ squad.name }}
+        </td>
+
+        <td class="squad-description-cell">
+          {{ squad.description }}
+        </td>
+
+        <td>
+          <span
+            class="squad-area-badge"
+            [ngClass]="{
+              'area-recoleccion': squad.area === 'RECOLECCION',
+              'area-obras': squad.area === 'OBRAS',
+              'area-alumbrado': squad.area === 'ALUMBRADO',
+              'area-otra': squad.area === 'OTRA'
+            }"
           >
-            <i class="bi bi-trash"></i>
-          </button>
+            {{ squad.area }}
+          </span>
+        </td>
+
+        <td>
+          <span class="squad-team-size">
+            {{ squad.teamSize }}
+          </span>
+        </td>
+
+        <td>
+          <div class="squad-actions">
+            <button
+              class="btn squad-action-btn squad-edit-btn"
+              data-bs-toggle="modal"
+              data-bs-target="#editModal"
+              (click)="openEditModal(squad)"
+              title="Editar cuadrilla"
+            >
+              <i class="bi bi-pencil-square"></i>
+            </button>
+
+            <button
+              class="btn squad-action-btn squad-delete-btn"
+              data-bs-toggle="modal"
+              data-bs-target="#deleteModal"
+              (click)="openDeleteModal(squad.id)"
+              title="Eliminar cuadrilla"
+            >
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
         </td>
       </tr>
     </tbody>
@@ -65,33 +98,49 @@
 </div>
 
 <div class="d-block d-md-none">
-  <div class="card shadow-sm mb-3" *ngFor="let squad of squads">
+  <div class="squad-mobile-card card mb-3" *ngFor="let squad of squads">
     <div class="card-body">
-      <div class="d-flex align-items-center justify-content-between mb-2">
-        <div class="d-flex align-items-center gap-2">
-          <i class="bi bi-people-fill text-primary fs-4"></i>
-          <h6 class="fw-bold mb-0">{{ squad.name }}</h6>
-        </div>
-      </div>
+      <div class="squad-mobile-header">
+        <div>
+          <h6 class="squad-mobile-title mb-1">
+            {{ squad.name }}
+          </h6>
 
-      <div class="d-flex align-items-center text-muted mb-3">
-        <i class="bi bi-person-badge me-2"></i>
-        <span>
-          <strong>{{ squad.teamSize }}</strong> integrantes
+          <span
+            class="squad-area-badge"
+            [ngClass]="{
+              'area-recoleccion': squad.area === 'RECOLECCION',
+              'area-obras': squad.area === 'OBRAS',
+              'area-alumbrado': squad.area === 'ALUMBRADO',
+              'area-otra': squad.area === 'OTRA'
+            }"
+          >
+            {{ squad.area }}
+          </span>
+        </div>
+
+        <span class="squad-mobile-team">
+          {{ squad.teamSize }} integrantes
         </span>
       </div>
 
-      <div class="d-flex justify-content-end gap-2">
+      <p class="squad-mobile-description">
+        {{ squad.description }}
+      </p>
+
+      <div class="squad-mobile-actions">
         <button
           data-bs-toggle="modal"
           data-bs-target="#editModal"
           (click)="openEditModal(squad)"
-          class="btn btn-sm btn-outline-secondary"
+          class="btn squad-mobile-edit-btn"
         >
+          <i class="bi bi-pencil-square"></i>
           Editar
         </button>
+
         <button
-          class="btn btn-outline-danger btn-sm"
+          class="btn squad-mobile-delete-btn"
           data-bs-toggle="modal"
           data-bs-target="#deleteModal"
           (click)="openDeleteModal(squad.id)"
@@ -110,21 +159,37 @@
   aria-labelledby="createModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+  <div class="modal-dialog modal-dialog-centered squad-form-dialog">
+    <div class="modal-content squad-form-modal">
+
+      <div class="modal-header squad-form-header">
+        <div>
+          <span class="squad-form-eyebrow">Gestión de cuadrillas</span>
+          <h5 class="modal-title squad-form-title" id="createModalLabel">
+            Crear cuadrilla
+          </h5>
+          <p class="squad-form-subtitle mb-0">
+            Registrá un nuevo equipo operativo para la atención de incidentes municipales.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          class="btn-close squad-form-close"
+          data-bs-dismiss="modal"
+          aria-label="Cerrar"
+        ></button>
       </div>
-      <div class="modal-body">
-        <section class="bg-white rounded shadow-sm p-5 border">
-          <h2 class="mb-4 text-primary">Crear cuadrilla</h2>
-          <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
-            <div class="mb-3">
-              <label for="name" class="form-label">Nombre</label>
+
+      <div class="modal-body squad-form-body">
+        <form (ngSubmit)="onSubmit()" #registerForm="ngForm" class="squad-form">
+          <div class="squad-form-grid">
+            <div class="squad-field squad-field-full">
+              <label for="createName" class="squad-label">Nombre</label>
               <input
                 type="text"
-                id="name"
-                class="form-control"
+                id="createName"
+                class="form-control squad-control"
                 placeholder="Ej: Alumbrado"
                 required
                 name="name"
@@ -132,12 +197,12 @@
               />
             </div>
 
-            <div class="mb-3">
-              <label for="description" class="form-label">Descripción</label>
+            <div class="squad-field squad-field-full">
+              <label for="createDescription" class="squad-label">Descripción</label>
               <textarea
-                id="description"
+                id="createDescription"
                 rows="4"
-                class="form-control"
+                class="form-control squad-control"
                 placeholder="Descripción de la cuadrilla"
                 required
                 name="description"
@@ -145,9 +210,15 @@
               ></textarea>
             </div>
 
-            <div class="mb-3">
-              <label for="area" class="form-label">Área</label>
-              <select id="area" class="form-select" name="area" [(ngModel)]="selectedArea" required>
+            <div class="squad-field">
+              <label for="createArea" class="squad-label">Área</label>
+              <select
+                id="createArea"
+                class="form-select squad-control"
+                name="area"
+                [(ngModel)]="selectedArea"
+                required
+              >
                 <option value="" disabled selected>Seleccione un área</option>
                 <option *ngFor="let area of areas" [value]="area.name">
                   {{ area.name | titlecase }}
@@ -155,29 +226,28 @@
               </select>
             </div>
 
-            <div class="mb-3">
-              <label for="supervisor" class="form-label">Supervisor</label>
+            <div class="squad-field">
+              <label for="createSupervisor" class="squad-label">Supervisor</label>
               <select
-                id="supervisor"
-                class="form-select"
+                id="createSupervisor"
+                class="form-select squad-control"
                 name="supervisorUserId"
                 [(ngModel)]="supervisorUserId"
                 required
               >
                 <option [ngValue]="null" disabled selected>Seleccione un supervisor</option>
-
                 <option *ngFor="let supervisor of supervisors" [ngValue]="supervisor.id">
                   {{ supervisor.name }} {{ supervisor.lastName }}
                 </option>
               </select>
             </div>
 
-            <div class="mb-3">
-              <label for="teamSize" class="form-label">Cantidad de integrantes</label>
+            <div class="squad-field">
+              <label for="createTeamSize" class="squad-label">Cantidad de integrantes</label>
               <input
                 type="number"
-                id="teamSize"
-                class="form-control"
+                id="createTeamSize"
+                class="form-control squad-control"
                 placeholder="2"
                 required
                 min="1"
@@ -185,11 +255,24 @@
                 [(ngModel)]="teamSize"
               />
             </div>
+          </div>
 
-            <button type="submit" class="btn btn-primary btn-lg">Crear cuadrilla</button>
-          </form>
-        </section>
+          <div class="squad-form-footer">
+            <button
+              type="button"
+              class="btn squad-secondary-btn"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+
+            <button type="submit" class="btn squad-primary-btn">
+              Crear cuadrilla
+            </button>
+          </div>
+        </form>
       </div>
+
     </div>
   </div>
 </div>
@@ -201,21 +284,42 @@
   aria-labelledby="editModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+  <div class="modal-dialog modal-dialog-centered squad-form-dialog">
+    <div class="modal-content squad-form-modal">
+
+      <div class="modal-header squad-form-header">
+        <div>
+          <span class="squad-form-eyebrow">Gestión de cuadrillas</span>
+          <h5 class="modal-title squad-form-title" id="editModalLabel">
+            Editar cuadrilla
+          </h5>
+          <p class="squad-form-subtitle mb-0">
+            Actualizá los datos del equipo operativo seleccionado.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          class="btn-close squad-form-close"
+          data-bs-dismiss="modal"
+          aria-label="Cerrar"
+        ></button>
       </div>
-      <div class="modal-body">
-        <section class="bg-white rounded shadow-sm p-5 border">
-          <h2 class="mb-4 text-primary">Editar cuadrilla</h2>
-          <form *ngIf="squadToEdit" (ngSubmit)="editSquad()" #editForm="ngForm">
-            <div class="mb-3">
-              <label for="name" class="form-label">Nombre</label>
+
+      <div class="modal-body squad-form-body">
+        <form
+          *ngIf="squadToEdit"
+          (ngSubmit)="editSquad()"
+          #editForm="ngForm"
+          class="squad-form"
+        >
+          <div class="squad-form-grid">
+            <div class="squad-field squad-field-full">
+              <label for="editName" class="squad-label">Nombre</label>
               <input
                 type="text"
-                id="name"
-                class="form-control"
+                id="editName"
+                class="form-control squad-control"
                 placeholder="Ej: Alumbrado"
                 required
                 name="name"
@@ -223,12 +327,12 @@
               />
             </div>
 
-            <div class="mb-3">
-              <label for="description" class="form-label">Descripción</label>
+            <div class="squad-field squad-field-full">
+              <label for="editDescription" class="squad-label">Descripción</label>
               <textarea
-                id="description"
+                id="editDescription"
                 rows="4"
-                class="form-control"
+                class="form-control squad-control"
                 placeholder="Descripción de la cuadrilla"
                 required
                 name="description"
@@ -236,11 +340,11 @@
               ></textarea>
             </div>
 
-            <div class="mb-3">
-              <label for="area" class="form-label">Área</label>
+            <div class="squad-field">
+              <label for="editArea" class="squad-label">Área</label>
               <select
-                id="area"
-                class="form-select"
+                id="editArea"
+                class="form-select squad-control"
                 name="area"
                 [(ngModel)]="squadToEdit.area"
                 required
@@ -251,29 +355,29 @@
                 </option>
               </select>
             </div>
-            <div class="mb-3">
-              <label for="supervisor" class="form-label">Supervisor</label>
+
+            <div class="squad-field">
+              <label for="editSupervisor" class="squad-label">Supervisor</label>
               <select
-                id="supervisor"
-                class="form-select"
+                id="editSupervisor"
+                class="form-select squad-control"
                 name="supervisorUserId"
                 [(ngModel)]="squadToEdit.supervisorUserId"
                 required
               >
                 <option [ngValue]="null" disabled selected>Seleccione un supervisor</option>
-
                 <option *ngFor="let supervisor of supervisors" [ngValue]="supervisor.id">
                   {{ supervisor.name }} {{ supervisor.lastName }}
                 </option>
               </select>
             </div>
 
-            <div class="mb-3">
-              <label for="teamSize" class="form-label">Cantidad de integrantes</label>
+            <div class="squad-field">
+              <label for="editTeamSize" class="squad-label">Cantidad de integrantes</label>
               <input
                 type="number"
-                id="teamSize"
-                class="form-control"
+                id="editTeamSize"
+                class="form-control squad-control"
                 placeholder="2"
                 required
                 min="1"
@@ -281,11 +385,24 @@
                 [(ngModel)]="squadToEdit.teamSize"
               />
             </div>
+          </div>
 
-            <button type="submit" class="btn btn-primary btn-lg">Editar cuadrilla</button>
-          </form>
-        </section>
+          <div class="squad-form-footer">
+            <button
+              type="button"
+              class="btn squad-secondary-btn"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+
+            <button type="submit" class="btn squad-primary-btn">
+              Guardar cambios
+            </button>
+          </div>
+        </form>
       </div>
+
     </div>
   </div>
 </div>
@@ -395,34 +512,58 @@
   aria-labelledby="deleteModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content rounded-4 shadow">
-      <!-- HEADER -->
-      <div class="modal-header border-0">
-        <h5 class="modal-title text-danger fw-bold" id="deleteModalLabel">
-          <i class="bi bi-exclamation-triangle-fill me-2"></i>
-          Eliminar cuadrilla
-        </h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
+  <div class="modal-dialog modal-dialog-centered squad-delete-dialog">
+    <div class="modal-content squad-delete-modal">
+
+      <div class="modal-header squad-delete-header">
+        <div class="squad-delete-title-group">
+          <div class="squad-delete-icon">
+            <i class="bi bi-exclamation-triangle"></i>
+          </div>
+
+          <div>
+            <span class="squad-delete-eyebrow">Acción irreversible</span>
+            <h5 class="modal-title squad-delete-title" id="deleteModalLabel">
+              Eliminar cuadrilla
+            </h5>
+          </div>
+        </div>
+
+        <button
+          class="btn-close squad-delete-close"
+          data-bs-dismiss="modal"
+          aria-label="Cerrar"
+        ></button>
       </div>
 
-      <!-- BODY -->
-      <div class="modal-body text-center px-4">
-        <p class="mb-0 fs-6">¿Seguro que desea eliminar esta cuadrilla?</p>
-        <small class="text-muted"> Esta acción no se puede deshacer. </small>
+      <div class="modal-body squad-delete-body">
+        <p class="squad-delete-text">
+          ¿Seguro que desea eliminar esta cuadrilla?
+        </p>
+        <p class="squad-delete-help">
+          Esta acción no se puede deshacer y quitará el equipo del listado operativo.
+        </p>
       </div>
 
-      <!-- FOOTER -->
-      <div class="modal-footer border-0 justify-content-center gap-3">
-        <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">
+      <div class="modal-footer squad-delete-footer">
+        <button
+          type="button"
+          class="btn squad-secondary-btn"
+          data-bs-dismiss="modal"
+        >
           Cancelar
         </button>
 
-        <button type="button" class="btn btn-danger px-4" (click)="confirmDelete()">
-          <i class="bi bi-trash me-1"></i>
+        <button
+          type="button"
+          class="btn squad-danger-btn"
+          (click)="confirmDelete()"
+        >
+          <i class="bi bi-trash"></i>
           Eliminar
         </button>
       </div>
+
     </div>
   </div>
 </div>
