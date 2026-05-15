@@ -1,6 +1,5 @@
 package com.example.report_service.services.impl;
 
-import com.example.report_service.dtos.ReportResponseDto;
 import com.example.report_service.dtos.SquadRequestDTO;
 import com.example.report_service.dtos.SquadResponseDTO;
 import com.example.report_service.dtos.UserBasicDto;
@@ -11,6 +10,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -31,6 +31,9 @@ public class SquadServiceImpl implements SquadService {
     @Autowired
     private  WebClient.Builder userClient;
 
+    @Value("${services.user-service.url}")
+    private String userServiceUrl;
+
     @Override
     public SquadResponseDTO createSquad(SquadRequestDTO dto) {
 
@@ -45,7 +48,7 @@ public class SquadServiceImpl implements SquadService {
 
         UserBasicDto supervisor = userClient.build()
                 .get()
-                .uri("http://user-service:8081/api/users/internal/{id}/basic", dto.getSupervisorUserId())
+                .uri(userServiceUrl + "/api/users/internal/{id}/basic", dto.getSupervisorUserId())
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                 .retrieve()
                 .bodyToMono(UserBasicDto.class)

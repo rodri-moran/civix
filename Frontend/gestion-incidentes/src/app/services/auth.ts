@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
+import { environment } from '../../environments/environment';
 
 interface JwtPayload {
   exp: number;
@@ -21,8 +22,8 @@ interface AuthResponse {
   providedIn: 'root'
 })
 export class Auth {
-  private apiUrl = 'http://localhost:8080/api/auth/login';
-  private apiRegisterUrl = 'http://localhost:8080/api/auth/register'
+  private apiUrl = `${environment.apiUrl}/api/auth/login`;
+  private apiRegisterUrl = `${environment.apiUrl}/api/auth/register`
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<AuthResponse> {

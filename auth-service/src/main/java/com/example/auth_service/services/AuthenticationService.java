@@ -3,6 +3,7 @@ package com.example.auth_service.services;
 import com.example.auth_service.configs.JwtUtil;
 import com.example.auth_service.dtos.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -19,11 +20,14 @@ public class AuthenticationService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Value("${services.user-service.url}")
+    private String userServiceUrl;
+
     public AuthResponseDto login(LoginRequestDto dto) {
 
         UserAuthDto user = webClientBuilder.build()
                 .get()
-                .uri("http://user-service:8081/api/users/internal/auth/{email}", dto.getEmail())
+                .uri(userServiceUrl + "/api/users/internal/auth/{email}", dto.getEmail())
                 .retrieve()
                 .bodyToMono(UserAuthDto.class)
                 .block();
@@ -47,21 +51,27 @@ public class AuthenticationService {
         );
     }
 
-    public AuthResponseDto register(RegisterRequestDto request){
+    public AuthResponseDto register(RegisterRequestDto request) {
         UserResponseDto user = webClientBuilder.build()
                 .post()
-                .uri("http://user-service:8081/api/users/public/register")
+                .uri(userServiceUrl + "/api/users/public/register")
                 .bodyValue(request)
                 .retrieve()
                 .bodyToMono(UserResponseDto.class)
                 .block();
-        String token = jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole().name());
 
-        return new AuthResponseDto(token,
+        String token = jwtUtil.generateToken(
+                user.getId(),
+                user.getEmail(),
+                user.getRole().name()
+        );
+
+        return new AuthResponseDto(
+                token,
                 user.getRole().name(),
                 user.getId(),
                 user.getName(),
-                user.getLastName());
+                user.getLastName()
+        );
     }
-
 }
