@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Auth } from '../../services/auth';
 import * as L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+//import 'leaflet/dist/leaflet.css';
 import { ResponseDto } from '../../dtos/ReportResponseDto.dto';
 import { ReportServiceService } from '../../services/report-service.service';
 

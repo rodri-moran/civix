@@ -3,7 +3,7 @@ import { ReportServiceService } from '../../services/report-service.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import * as L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+//import 'leaflet/dist/leaflet.css';
 import { IventoryServiceService } from '../../services/iventory-service.service';
 import { ResourceDto } from '../../dtos/ResourceDto';
 import { Squad } from '../../dtos/SquadDto.dto';
