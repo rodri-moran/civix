@@ -23,7 +23,7 @@ export class Register {
 
   emailControl = new FormControl('', [Validators.required, Validators.email]);
 
-  constructor(private authService: Auth, private router: Router) {}
+  constructor(private authService: Auth, private router: Router) { }
 
   ngOnInit() {
     document.body.classList.add('register-page');
@@ -45,7 +45,8 @@ export class Register {
         next: (response) => {
           localStorage.setItem('token', response.token);
           localStorage.setItem('userName', `${response.name} ${response.lastName}`);
-
+          localStorage.setItem('role', response.role);
+          localStorage.setItem('userName', `${response.name} ${response.lastName}`);
           this.router.navigate(['/login']);
         },
         error: (err) => {
