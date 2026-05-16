@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.*;
-
 @Service
 public class StatisticsServiceImpl implements StatisticsService {
     @Autowired
@@ -75,8 +74,6 @@ public class StatisticsServiceImpl implements StatisticsService {
         return Duration.ofHours((long) avgHours);
     }
 
-    //@Query("SELECT r.squad.name, r.createdAt, r.resolvedAt FROM ReportEntity r WHERE r.resolvedAt IS NOT NULL")
-    //    List<Object[]> getResolutionData();
     @Override
     public Map<String, Duration> getAverageResolutionTimeBySquad() {
         List<Object[]> results = reportRepository.getResolutionData();

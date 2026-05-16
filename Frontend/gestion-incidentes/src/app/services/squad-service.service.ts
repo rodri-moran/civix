@@ -40,7 +40,7 @@ export class SquadServiceService {
 
   getSupervisors() {
     return this.http.get<SupervisorDto[]>(
-      `${environment.apiUrl}/api/users/internal/supervisors`,
+      `${environment.apiUrl}/api/users/admin/supervisors`,
       this.authHeaders()
     );
   }

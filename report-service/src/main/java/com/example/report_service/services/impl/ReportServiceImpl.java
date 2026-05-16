@@ -1,15 +1,13 @@
 package com.example.report_service.services.impl;
-
 import com.example.report_service.configs.JwtUtil;
 import com.example.report_service.dtos.*;
 import com.example.report_service.entity.ReportEntity;
-import com.example.report_service.entity.ReportStatusHistoryEntity;
 import com.example.report_service.entity.SquadEntity;
 import com.example.report_service.enums.Status;
-//import com.example.report_service.repository.HistoryRepository;
 import com.example.report_service.repository.ReportRepository;
 import com.example.report_service.repository.SquadRepository;
 import com.example.report_service.services.interfaces.ReportService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,15 +20,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-
 import org.springframework.security.access.AccessDeniedException;
-
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
-
 @Service
 public class ReportServiceImpl implements ReportService {
     @Autowired
@@ -45,15 +39,17 @@ public class ReportServiceImpl implements ReportService {
 //    private HistoryRepository historyRepository;
     @Autowired
     private JwtUtil jwtUtil;
+    @Value("${services.inventory-service.url}")
+    private String inventoryServiceUrl;
 
 
     private static final Logger log =
             LoggerFactory.getLogger(ReportServiceImpl.class);
     @Override
-    public ReportResponseDto createReport(ReportRequestDto request) {
+    public ReportResponseDto createReport(ReportRequestDto request, Long userId) {
         request.setStatus(Status.PENDING);
         ReportEntity reportEntity = modelMapper.map(request, ReportEntity.class);
-
+        reportEntity.setUserId(userId);
         ReportEntity saved = repository.save(reportEntity);
 
         return modelMapper.map(saved, ReportResponseDto.class);
@@ -157,13 +153,6 @@ public class ReportServiceImpl implements ReportService {
             entity.setResolvedAt(null);
         }
 
-//        ReportStatusHistoryEntity history = new ReportStatusHistoryEntity();
-//        history.setReport(entity);
-//        history.setOldStatus(entity.getStatus());
-//        history.setNewStatus(status);
-//
-//        historyRepository.save(history);
-
         entity.setStatus(status);
         repository.save(entity);
         return modelMapper.map(entity, ReportResponseDto.class);
@@ -203,21 +192,13 @@ public class ReportServiceImpl implements ReportService {
 
         webClientBuilder.build()
                 .post()
-                .uri("http://inventory-service:8084/api/inventory/squad/movements")
+                .uri(inventoryServiceUrl + "/api/inventory/squad/movements")
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + userToken)
                 .bodyValue(inventoryDto)
                 .retrieve()
                 .toBodilessEntity()
                 .block();
     }
-
-
-//    UserResponseDto user = webClientBuilder.build()
-//            .get()
-//            .uri("http://user-service:8081/api/users/public/by-email/{email}", dto.getEmail())
-//            .retrieve()
-//            .bodyToMono(UserResponseDto.class)
-//            .block();
 
     private ReportResponseDto convertEntityToDto (ReportEntity entity){
         return modelMapper.map(entity, ReportResponseDto.class);
@@ -243,5 +224,4 @@ public class ReportServiceImpl implements ReportService {
             return auth.substring(7);
         return null;
     }
-
 }

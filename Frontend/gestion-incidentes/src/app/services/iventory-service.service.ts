@@ -11,10 +11,10 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class IventoryServiceService {
-private baseUrl = `${environment.apiUrl}/api/inventory`
-constructor(private http :HttpClient) { }
+  private baseUrl = `${environment.apiUrl}/api/inventory`
+  constructor(private http: HttpClient) { }
 
-    private authHeaders() {
+  private authHeaders() {
     const token = localStorage.getItem('token');
     return {
       headers: new HttpHeaders({
@@ -23,23 +23,23 @@ constructor(private http :HttpClient) { }
     };
   }
 
-  createResource(resourceCreate : ResourceCreateDto) : Observable<ResourceCreateDto>{
+  createResource(resourceCreate: ResourceCreateDto): Observable<ResourceCreateDto> {
 
     return this.http.post<ResourceCreateDto>(
-      this.baseUrl + '/admin',
+      this.baseUrl + '/admin/resources',
       resourceCreate,
       this.authHeaders()
     );
   }
 
-  getAllResources() : Observable<ResourceDto[]> {
+  getAllResources(): Observable<ResourceDto[]> {
     return this.http.get<ResourceDto[]>(
-      `${this.baseUrl}/squad/getAll`,
+      `${this.baseUrl}/squad/resources`,
       this.authHeaders()
     )
   }
 
-  registerMovement(movement: InventoryMovementDto){    
+  registerMovement(movement: InventoryMovementDto) {
     return this.http.post(
       `${this.baseUrl}/squad/movements`,
       movement,
@@ -47,7 +47,7 @@ constructor(private http :HttpClient) { }
     );
   }
 
-  getAllMovements() : Observable<InventoryMovementResponseDto[]>{
+  getAllMovements(): Observable<InventoryMovementResponseDto[]> {
     return this.http.get<InventoryMovementResponseDto[]>(
       `${this.baseUrl}/admin/movements`,
       this.authHeaders()
@@ -55,8 +55,8 @@ constructor(private http :HttpClient) { }
   }
 
   deleteResource(id: number) {
-  return this.http.delete(`${this.baseUrl}/admin/delete/${id}`,
-    this.authHeaders()
-  );
-}
+    return this.http.delete(`${this.baseUrl}/admin/resources/${id}`,
+      this.authHeaders()
+    );
+  }
 }

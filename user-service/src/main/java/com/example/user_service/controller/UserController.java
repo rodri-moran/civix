@@ -21,23 +21,27 @@ public class UserController {
     public ResponseEntity<UserResponseDto> createUser(@Valid @RequestBody UserRequestDto dto){
         return ResponseEntity.ok(userService.createUser(dto));
     }
+    @PostMapping("/admin")
+    public ResponseEntity<UserResponseDto> createUserByAdmin(@Valid @RequestBody UserRequestDto dto) {
+        return ResponseEntity.ok(userService.createUser(dto));
+    }
 
     @GetMapping("/admin/{userId}")
     public ResponseEntity<UserResponseDto> getUserById( @PathVariable Long userId){
         return ResponseEntity.ok(userService.getUserById(userId));
     }
 
-    @GetMapping("/public")
+    @GetMapping("/admin")
     public ResponseEntity<List<UserResponseDto>> getAllUsers(){
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    @PutMapping("/public/{userId}")
+    @PutMapping("/admin/{userId}")
     public ResponseEntity<UserResponseDto> updateUser(@Valid @RequestBody UserUpdateDto dto, @PathVariable Long userId){
         return ResponseEntity.ok(userService.updateUser(dto, userId));
     }
 
-    @DeleteMapping("/public/{userId}")
+    @DeleteMapping("/admin/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable Long userId){
         return ResponseEntity.ok(userService.deleteUser(userId));
     }
@@ -63,7 +67,7 @@ public class UserController {
         return ResponseEntity.ok(new UserBasicDto(userEntity.getId(), userEntity.getRole().name()));
     }
 
-    @GetMapping("/internal/supervisors")
+    @GetMapping("/admin/supervisors")
     public ResponseEntity<List<UserResponseDto>> getSupervisors() {
         return ResponseEntity.ok(userService.getUsersByRole(Role.CUADRILLA));
     }

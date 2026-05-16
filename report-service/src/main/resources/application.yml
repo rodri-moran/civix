@@ -31,3 +31,5 @@ jwt:
 services:
   user-service:
     url: ${USER_SERVICE_URL:http://user-service:8081}
+  inventory-service:
+    url: ${INVENTORY_SERVICE_URL:http://inventory-service:8084}

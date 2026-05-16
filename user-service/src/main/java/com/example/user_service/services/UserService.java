@@ -10,6 +10,7 @@ import java.util.List;
 @Service
 public interface UserService {
     UserResponseDto createUser(UserRequestDto dto);
+    UserResponseDto createUserByAdmin(UserRequestDto dto);
     UserResponseDto getUserById(Long userId);
     List<UserResponseDto> getAllUsers();
     UserResponseDto updateUser(UserUpdateDto dto, Long userId);

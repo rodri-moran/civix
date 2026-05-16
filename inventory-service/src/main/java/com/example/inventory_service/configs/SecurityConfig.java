@@ -1,6 +1,7 @@
 package com.example.inventory_service.configs;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -18,11 +19,15 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/inventory/admin",
-                                "/api/inventory/admin/**")
+
+                        .requestMatchers(HttpMethod.GET, "/api/inventory/test").permitAll()
+
+                        .requestMatchers("/api/inventory/admin/**")
                         .hasRole("ADMIN")
+
                         .requestMatchers("/api/inventory/squad/**")
                         .hasAnyRole("ADMIN", "CUADRILLA")
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

@@ -44,7 +44,8 @@ export class Register {
       .subscribe({
         next: (response) => {
           localStorage.setItem('token', response.token);
-          localStorage.setItem('userId', response.userId.toString()); localStorage.setItem('role', response.role);
+          localStorage.setItem('userId', response.userId.toString()); 
+          localStorage.setItem('role', response.role);
           localStorage.setItem('userName', `${response.name} ${response.lastName}`);
           this.router.navigate(['/login']);
         },

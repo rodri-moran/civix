@@ -1,6 +1,4 @@
 package com.example.user_service.services;
-
-import com.example.user_service.configs.JwtUtil;
 import com.example.user_service.dtos.*;
 import com.example.user_service.entity.UserEntity;
 import com.example.user_service.enums.Role;
@@ -12,7 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -32,9 +29,26 @@ public class UserServiceImpl implements UserService {
         if(userRepository.existsByEmail(dto.getEmail())){
             throw new IllegalArgumentException("El email ya está registrado");
         }
+
         UserEntity userEntity = modelMapper.map(dto, UserEntity.class);
+        userEntity.setRole(Role.CIUDADANO);
         userEntity.setRegistrationDate(LocalDate.now());
 
+        //se hashea la contraseña antes de guardar
+        userEntity.setPasswordHash(passwordEncoder.encode(dto.getPasswordHash()));
+
+        UserEntity saved = userRepository.save(userEntity);
+        return modelMapper.map(saved, UserResponseDto.class);
+    }
+
+    @Override
+    public UserResponseDto createUserByAdmin(UserRequestDto dto) {
+        if(userRepository.existsByEmail(dto.getEmail())){
+            throw new IllegalArgumentException("El email ya está registrado");
+        }
+
+        UserEntity userEntity = modelMapper.map(dto, UserEntity.class);
+        userEntity.setRegistrationDate(LocalDate.now());
 
         //se hashea la contraseña antes de guardar
         userEntity.setPasswordHash(passwordEncoder.encode(dto.getPasswordHash()));

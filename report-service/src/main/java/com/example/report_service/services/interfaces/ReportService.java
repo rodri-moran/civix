@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 public interface ReportService {
-    ReportResponseDto createReport(ReportRequestDto request);
+    ReportResponseDto createReport(ReportRequestDto request, Long userId);
     List<ReportResponseDto> getReportsByUserId(Long userId);
     List<ReportResponseDto> getAll();
     ReportResponseDto assignSquadToReport(Long reportId, Long squadId);

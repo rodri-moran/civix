@@ -1,6 +1,7 @@
 package com.example.auth_service.configs;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,22 +20,13 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())             // API REST
                 .cors(cors -> cors.disable())             // CORS manejado por Gateway
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // login/register público
-                        .anyRequest().authenticated()               // el resto requiere token
+                        .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                        .anyRequest().authenticated()              // el resto requiere token
                 )
         ;
 
         return http.build();
     }
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        return http
-//                .csrf(csrf -> csrf.disable()) // desactivar CSRF para APIs REST
-////                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/api/auth/**").permitAll() // login y register públicos
-//                        .anyRequest().authenticated() // to.do lo demás requiere autenticación
-//                )
-//                .build();
-//    }
+
 }

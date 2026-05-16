@@ -36,7 +36,7 @@ constructor(private http: HttpClient, ) { }
   }
 
   deleteNew(id: number): Observable<void>{
-    return this.http.delete<void>(`${environment.apiUrl}/api/new/admin/delete/${id}`,
+    return this.http.delete<void>(`${environment.apiUrl}/api/new/admin/${id}`,
       this.authHeaders()
     )
   }

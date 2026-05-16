@@ -17,11 +17,13 @@ public class NewController {
     public ResponseEntity<NewResponseDto> createNew(NewDto dto){
         return ResponseEntity.ok(service.createNew(dto));
     }
-    @GetMapping("/admin")
+
+    @GetMapping("/public")
     public ResponseEntity<List<NewResponseDto>> getAllNews(){
         return ResponseEntity.ok(service.getAllNews());
     }
-    @DeleteMapping("/admin/delete/{id}")
+
+    @DeleteMapping("/admin/{id}")
     public ResponseEntity<Void> deleteNew(@PathVariable Long id){
         service.deleteNew(id);
         return ResponseEntity.noContent().build();

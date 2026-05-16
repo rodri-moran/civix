@@ -27,21 +27,23 @@ public class ReportController {
         return ResponseEntity.ok(newService.getAllNews());
     }
 
-    @PostMapping("/public")
-    public ResponseEntity<ReportResponseDto> createReport(@RequestBody ReportRequestDto dto){
-        return ResponseEntity.ok(reportService.createReport(dto));
+    @PostMapping()
+    public ResponseEntity<ReportResponseDto> createReport(@RequestBody ReportRequestDto dto,
+                                                          Authentication authentication){
+        Long userId = (Long)authentication.getPrincipal();
+        return ResponseEntity.ok(reportService.createReport(dto, userId));
     }
-    @GetMapping("/admin/report/{id}")
+    @GetMapping("/admin/{id}")
     public ResponseEntity<ReportResponseDto> getById(@PathVariable Long id){
         return ResponseEntity.ok(reportService.getById(id));
     }
 
-    @GetMapping("/get-by-user-id")
-    public ResponseEntity<List<ReportResponseDto>> getReportsByUserId(Authentication authentication){
+    @GetMapping("/me")
+    public ResponseEntity<List<ReportResponseDto>> getMyReports(Authentication authentication){
         Long userId = (Long) authentication.getPrincipal();
         return ResponseEntity.ok(reportService.getReportsByUserId(userId));
     }
-    @GetMapping("/admin/getAll")
+    @GetMapping("/admin")
     public ResponseEntity<List<ReportResponseDto>> getAll(){
         System.out.println("**** llegó la petición *****");
         return ResponseEntity.ok(reportService.getAll());
@@ -64,7 +66,8 @@ public class ReportController {
     public ResponseEntity<SquadResponseDTO> getSquadById(@PathVariable Long id){
             return ResponseEntity.ok(service.getById(id));
     }
-    @PutMapping("/admin/report/{id}/assign/{squadId}")
+
+    @PutMapping("/admin/{id}/assign/{squadId}")
     public ResponseEntity<ReportResponseDto>assignSquadToReport(@PathVariable Long id,
                                                                 @PathVariable Long squadId){
             System.out.println("**** llegó la petición *****");

@@ -19,8 +19,6 @@ public class ReportRequestDto {
 
     private Status status;
 
-    private Long userId;
-
 
     public String getTitle() {
         return title;
@@ -76,13 +74,5 @@ public class ReportRequestDto {
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 }
