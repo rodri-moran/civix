@@ -44,7 +44,6 @@ export class AdminDashboardComponent implements OnInit {
           ),
           status: r.status === 'PENDING' ? 'PENDIENTE' : r.status
         }));       
-        console.log('reports cargados:', this.reports);
       },
       error: (err) => {
         console.error("error cargando reports: ",err)

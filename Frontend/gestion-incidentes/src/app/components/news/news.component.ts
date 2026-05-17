@@ -50,8 +50,6 @@ export class NewsComponent implements OnInit {
 
     this.newService.createNew(this.newNews).subscribe({
       next: (data) => {
-        console.log('response: ', data);
-
         this.newNews = { title: '', description: '', category: '' };
         this.selectedCategory = '';
         this.customCategory = '';

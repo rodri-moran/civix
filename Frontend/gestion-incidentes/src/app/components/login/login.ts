@@ -30,7 +30,6 @@ ngOnDestroy() {
 
   onSubmit() {
     this.isLoading = true;
-    console.log('email: '+this.email)
 
     this.authService.login(this.email, this.password).subscribe({
       next: (response) => {

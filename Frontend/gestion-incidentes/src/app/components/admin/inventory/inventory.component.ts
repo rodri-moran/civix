@@ -48,7 +48,6 @@ movement = {
   ngOnInit() {
     this.inventoryService.getAllResources().subscribe({
       next: (data) => {
-        console.log('Recursos traídos de la BD: ', data)
         this.resources = data;
       },
       error: (err) => {
@@ -109,7 +108,6 @@ movement = {
   loadMovements(){
     this.inventoryService.getAllMovements().subscribe({
       next: (data) => {
-        console.log('Historial de movimientos: ', data)
         this.movements = data;
       },
       error: (err) => {

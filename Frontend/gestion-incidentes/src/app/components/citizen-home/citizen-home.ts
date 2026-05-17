@@ -21,7 +21,6 @@ export class CitizenHome {
 
   ngOnInit() {
     const role = localStorage.getItem('role');
-    console.log('ROL:', role);
     this.isAdmin = role === 'ADMIN';
     this.isSupervisor = role === 'CUADRILLA';
     this.loadNews();

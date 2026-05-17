@@ -75,7 +75,7 @@ export class SquadsComponentComponent {
         this.resetForm();
         this.closeModal();
       },
-      error: (err) => console.log('Error al crear cuadrilla', err),
+      error: (err) => console.error('Error al crear cuadrilla', err),
     });
   }
   squadToEdit: Squad | null = null;

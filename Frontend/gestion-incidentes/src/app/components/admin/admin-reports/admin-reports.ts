@@ -62,7 +62,6 @@ export class AdminReports implements OnInit {
 
     this.service.getReports().subscribe({
       next: (data) => {
-        console.log('Reportes recibidos: ' + data);
         const sorted = data.sort((a, b) => {
           const estadoOrden = getEstadoOrden(a.status) - getEstadoOrden(b.status);
           if (estadoOrden !== 0) return estadoOrden;
@@ -110,7 +109,6 @@ export class AdminReports implements OnInit {
 
     this.service.updateStatus(report.id, newStatus).subscribe({
       next: (data) => {
-        console.log('Estado de reporte actualizado: ' + data);
       },
       error: (err) => {
         console.log('Error actualizando el estado del reporte: ', err);
@@ -131,7 +129,6 @@ export class AdminReports implements OnInit {
 
     this.service.assignSquadToReport(this.selectedReport.id, this.selectedSquadId).subscribe({
       next: (data) => {
-        console.log('respuesta de back al asignar squad a report: ' + data);
         this.selectedReport!.squad = selectedSquad;
         this.selectedReport!.status = 'IN_PROCESS';
         this.showMessage(true, 'La cuadrilla fue asignada correctamente al reporte.');

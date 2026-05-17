@@ -50,8 +50,6 @@ export class CitizenLayoutComponent {
     } else {
       this.roleLabel = 'Ciudadano'
     }
-
-    console.log('token válido?', token, 'isLoggedIn:', this.isLoggedIn);
   }
 
   logout() {

@@ -61,7 +61,6 @@ export class CuadrillaComponent implements OnInit {
 
     this.service.getReportsForSupervisor().subscribe({
       next: (data) => {
-        console.log('Reportes recibidos: ' + data);
         const sorted = data.sort((a, b) => {
           const estadoOrden = getEstadoOrden(a.status) - getEstadoOrden(b.status);
           if (estadoOrden !== 0) return estadoOrden;
@@ -75,7 +74,7 @@ export class CuadrillaComponent implements OnInit {
         this.reports = [...sorted];
       },
       error: (err) => {
-        console.log('Error al obtener los reportes: ', err);
+        console.error('Error al obtener los reportes: ', err);
       },
     });
   }
@@ -130,10 +129,9 @@ export class CuadrillaComponent implements OnInit {
 
     this.service.updateStatus(report.id, newStatus).subscribe({
       next: (data) => {
-        console.log('Estado de reporte actualizado: ' + data);
       },
       error: (err) => {
-        console.log('Error actualizando el estado del reporte: ', err);
+        console.error('Error actualizando el estado del reporte: ', err);
       },
     });
   }

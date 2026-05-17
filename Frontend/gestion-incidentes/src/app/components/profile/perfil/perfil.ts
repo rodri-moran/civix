@@ -71,6 +71,8 @@ export class PerfilComponent implements OnInit {
         this.editedValues = { ...updated };
         this.hasChanges = false;
         this.isEditing = false;
+        this.user.name = this.editedValues.name;
+        localStorage.setItem('userName', `${this.editedValues.name} ${this.editedValues.lastName}`);
       },
       error: (err) => console.error('Error actualizando perfil', err),
     });

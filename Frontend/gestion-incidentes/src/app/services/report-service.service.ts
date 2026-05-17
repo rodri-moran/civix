@@ -26,7 +26,7 @@ export class ReportServiceService {
   private baseUrl = `${environment.apiUrl}/api/report`;
   private baseUrlForSquad = `${environment.apiUrl}`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   private authHeaders() {
     const token = localStorage.getItem('token');
@@ -37,16 +37,20 @@ export class ReportServiceService {
     };
   }
 
-  createReport(title: string, description: string, address: string, latitude: number, longitude: number, userId: number): Observable<ResponseDto>{
-    return this.http.post<ResponseDto>(`${this.baseUrl}/public`, { title, description, address, latitude, longitude, userId })           
+  createReport(title: string, description: string, address: string, latitude: number, longitude: number): Observable<ResponseDto> {
+    const token = localStorage.getItem("token");
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    })
+    return this.http.post<ResponseDto>(`${this.baseUrl}`, { title, description, address, latitude, longitude }, {headers});
   }
 
-  getReportsByUserId(): Observable<Report[]>{
-    return this.http.get<Report[]>(`${this.baseUrl}/get-by-user-id`, this.authHeaders());
+  getReportsByUserId(): Observable<Report[]> {
+    return this.http.get<Report[]>(`${this.baseUrl}/me`, this.authHeaders());
   }
 
   getReports(): Observable<Report[]> {
-    return this.http.get<Report[]>(`${this.baseUrl}/admin/getAll`, this.authHeaders());
+    return this.http.get<Report[]>(`${this.baseUrl}/admin`, this.authHeaders());
   }
 
   getSquads() {
@@ -62,14 +66,13 @@ export class ReportServiceService {
   }
 
   assignSquadToReport(reportId: number, squadId: number): Observable<Report> {
-    console.log('reportId: ' + reportId + ' y squadId: ' + squadId);
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
 
     return this.http.put<Report>(
-      `${this.baseUrl}/admin/report/${reportId}/assign/${squadId}`,
+      `${this.baseUrl}/admin/${reportId}/assign/${squadId}`,
       {},
       { headers }
     );

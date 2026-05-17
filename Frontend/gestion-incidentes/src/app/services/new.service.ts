@@ -8,7 +8,8 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class NewService {
-  private baseUrl = `${environment.apiUrl}/api/report`
+  private baseUrl = `${environment.apiUrl}/api/report`;
+  private baseUrlNews = `${environment.apiUrl}/api/new`
 
 constructor(private http: HttpClient, ) { }
 
@@ -31,7 +32,7 @@ constructor(private http: HttpClient, ) { }
 
   getAllNews() : Observable<NewResponseDto[]>{
     return this.http.get<NewResponseDto[]>(
-      `${this.baseUrl}/public`
+      `${this.baseUrlNews}/public`
     )
   }
 

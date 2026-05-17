@@ -26,7 +26,6 @@ export class ReportarIncidente {
   title: string = '';
   description: string = '';
   address: string = '';
-  userId: number = Number(localStorage.getItem('userId'));
   longitude?: number;
   latitude?: number;
 
@@ -64,7 +63,6 @@ export class ReportarIncidente {
   }
 
   onSubmit(): void {
-    console.log('longitud: ', this.longitude, 'latitud: ', this.latitude);
     if (!this.title || !this.description || !this.address || !this.latitude || !this.longitude) {
       this.showErrorModal();
       return;
@@ -76,12 +74,10 @@ export class ReportarIncidente {
         this.description,
         this.address,
         this.latitude,
-        this.longitude,
-        this.userId
+        this.longitude
       )
       .subscribe({
         next: (response) => {
-          console.log('response: ', response);
           this.showSuccessModal();
 
           try {

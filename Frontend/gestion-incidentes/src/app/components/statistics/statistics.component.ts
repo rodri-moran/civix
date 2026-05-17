@@ -81,7 +81,6 @@ export class StatisticsComponent implements OnInit {
   renderBarChartSquad() {
     this.service.getCountOfReportsBySquad().subscribe((response) => {
       this.squadData = response;
-      console.log('response: ', this.squadData);
 
       new Chart('barChartSquad', {
         type: 'bar',
@@ -133,7 +132,6 @@ export class StatisticsComponent implements OnInit {
 
   loadFastestSquad() {
     this.service.getAverageResolutionTimeBySquad().subscribe((data) => {
-      console.log('data de squad: ', data);
       let fastestSquad: string | null = null;
       let fastestSeconds = Number.MAX_VALUE;
 
