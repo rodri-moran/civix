@@ -43,12 +43,23 @@ export class AdminReports implements OnInit {
     RESOLVED: { text: 'Resuelto', class: 'bg-success' },
   };
   private map!: L.Map;
+
+  private readonly defaultIcon = L.icon({
+    iconUrl: '/leaflet/marker-icon.png',
+    iconRetinaUrl: '/leaflet/marker-icon-2x.png',
+    shadowUrl: '/leaflet/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+  });
+
   reports: Report[] = [];
   allReports: Report[] = [];
   squads: Squad[] = [];
   isAssigning = false;
 
-  constructor(private service: ReportServiceService) {}
+  constructor(private service: ReportServiceService) { }
 
   ngOnInit(): void {
     this.service.getSquads().subscribe({
@@ -198,7 +209,10 @@ export class AdminReports implements OnInit {
           attribution: '&copy; OpenStreetMap contributors',
         }).addTo(this.map);
 
-        L.marker([this.reportToDetail.latitude, this.reportToDetail.longitude])
+        L.marker(
+          [this.reportToDetail.latitude, this.reportToDetail.longitude],
+          { icon: this.defaultIcon }
+        )
           .addTo(this.map)
           .bindPopup('Ubicación del reporte');
       }
@@ -227,27 +241,27 @@ export class AdminReports implements OnInit {
 
   selectedMobileReport?: Report;
 
-openMobileStatusModal(report: Report) {
-  this.selectedMobileReport = report;
+  openMobileStatusModal(report: Report) {
+    this.selectedMobileReport = report;
 
-  const modalEl = document.getElementById('mobileStatusModal');
-  if (modalEl) {
-    const modal = new bootstrap.Modal(modalEl);
-    modal.show();
+    const modalEl = document.getElementById('mobileStatusModal');
+    if (modalEl) {
+      const modal = new bootstrap.Modal(modalEl);
+      modal.show();
+    }
   }
-}
 
-onMobileStatusSelect(status: string) {
-  if (!this.selectedMobileReport) return;
+  onMobileStatusSelect(status: string) {
+    if (!this.selectedMobileReport) return;
 
-  this.onStatusSelect(this.selectedMobileReport, status);
+    this.onStatusSelect(this.selectedMobileReport, status);
 
-  const modalEl = document.getElementById('mobileStatusModal');
-  if (modalEl) {
-    const modal = bootstrap.Modal.getInstance(modalEl);
-    modal?.hide();
+    const modalEl = document.getElementById('mobileStatusModal');
+    if (modalEl) {
+      const modal = bootstrap.Modal.getInstance(modalEl);
+      modal?.hide();
+    }
   }
-}
 
 
 

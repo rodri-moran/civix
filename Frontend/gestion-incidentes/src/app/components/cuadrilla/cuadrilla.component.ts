@@ -37,6 +37,17 @@ export class CuadrillaComponent implements OnInit {
     RESOLVED: { text: 'Resuelto', class: 'bg-success' },
   };
   private map!: L.Map;
+
+  private readonly defaultIcon = L.icon({
+    iconUrl: '/leaflet/marker-icon.png',
+    iconRetinaUrl: '/leaflet/marker-icon-2x.png',
+    shadowUrl: '/leaflet/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+  });
+
   resources: ResourceDto[] = [];
   reports: Report[] = [];
   allReports: Report[] = [];
@@ -166,7 +177,10 @@ export class CuadrillaComponent implements OnInit {
           attribution: '&copy; OpenStreetMap contributors',
         }).addTo(this.map);
 
-        L.marker([this.reportToDetail.latitude, this.reportToDetail.longitude])
+        L.marker(
+          [this.reportToDetail.latitude, this.reportToDetail.longitude],
+          { icon: this.defaultIcon }
+        )
           .addTo(this.map)
           .bindPopup('Ubicación del reporte');
       }
