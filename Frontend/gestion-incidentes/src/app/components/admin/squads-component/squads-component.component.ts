@@ -6,6 +6,7 @@ import { SupervisorDto } from '../../../dtos/SupervisorDto.dto';
 import { SquadServiceService } from '../../../services/squad-service.service';
 import { Squad } from '../../../dtos/SquadDto.dto';
 import { SquadRequest } from '../../../dtos/SquadRequestDto.dto';
+import { LoaderComponent } from '../../../shared/loader/loader';
 declare const bootstrap: any;
 
 interface Area {
@@ -15,10 +16,11 @@ interface Area {
 @Component({
   selector: 'app-squads-component',
   templateUrl: './squads-component.component.html',
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, LoaderComponent],
   styleUrls: ['./squads-component.component.css'],
 })
 export class SquadsComponentComponent {
+  isLoading = false;  
   squads: Squad[] = [];
   areas: Area[] = [
     { name: 'ALUMBRADO' },
@@ -51,6 +53,8 @@ export class SquadsComponentComponent {
   }
 
   onSubmit() {
+    this.isLoading = true;
+
     if (
       !this.name ||
       !this.description ||
@@ -73,9 +77,13 @@ export class SquadsComponentComponent {
       next: (data) => {
         this.squads.push(data);
         this.resetForm();
+        this.isLoading = false;
         this.closeModal();
       },
-      error: (err) => console.error('Error al crear cuadrilla', err),
+      error: (err) => {
+        console.error('Error al crear cuadrilla', err)
+        this.isLoading = false;
+      },
     });
   }
   squadToEdit: Squad | null = null;
@@ -102,6 +110,7 @@ export class SquadsComponentComponent {
 
   editSquad() {
     if (!this.squadToEdit) return;
+    this.isLoading = true;
 
     const { id, ...body } = this.squadToEdit;
 
@@ -112,11 +121,12 @@ export class SquadsComponentComponent {
         if (index !== -1) {
           this.squads[index] = updateSquad;
         }
-
+        this.isLoading = false;
         this.closeEditModal();
         this.showSuccessToast();
       },
       error: (err) => {
+        this.isLoading = false;
         this.showErrorToast();
       },
     });

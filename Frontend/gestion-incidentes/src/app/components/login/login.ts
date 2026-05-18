@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { Auth } from '../../services/auth';  
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
@@ -28,23 +28,31 @@ ngOnDestroy() {
   document.body.classList.remove('login-page');
 }
 
-  onSubmit() {
-    this.isLoading = true;
+  onSubmit(loginForm: NgForm) {
+  this.errorMessage = '';
 
-    this.authService.login(this.email, this.password).subscribe({
-      next: (response) => {
-        localStorage.setItem('token', response.token); 
-        localStorage.setItem('userId', response.userId.toString());
-        localStorage.setItem('role', response.role);
-        localStorage.setItem('userName', `${response.name} ${response.lastName}`);
-        this.isLoading = false;
-        this.router.navigate(["/citizen-dashboard"])
-      },
-      error: (err) => {
-        console.error(err);
-        this.isLoading = false;
-        this.errorMessage = 'Credenciales inválidas';
-      }
-    });
+  if (loginForm.invalid) {
+    loginForm.control.markAllAsTouched();
+    return;
   }
+
+  this.isLoading = true;
+
+  this.authService.login(this.email.trim(), this.password).subscribe({
+    next: (response) => {
+      localStorage.setItem('token', response.token);
+      localStorage.setItem('userId', response.userId.toString());
+      localStorage.setItem('role', response.role);
+      localStorage.setItem('userName', `${response.name} ${response.lastName}`);
+
+      this.isLoading = false;
+      this.router.navigate(['/citizen-dashboard']);
+    },
+    error: (err) => {
+      console.error(err);
+      this.isLoading = false;
+      this.errorMessage = 'Credenciales inválidas';
+    },
+  });
+}
 }

@@ -1365,3 +1365,12 @@ textarea.inventory-control {
     width: 100%;
   }
 }
+
+.inventory-primary-btn:hover:not(:disabled) {
+  background-color: #143d6e;
+}
+
+.inventory-primary-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

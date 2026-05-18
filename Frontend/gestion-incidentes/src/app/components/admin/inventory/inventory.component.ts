@@ -18,7 +18,7 @@ declare const bootstrap: any;
 })
 
 export class InventoryComponent implements OnInit {
-  
+  isLoading = false;
   newResource : ResourceCreateDto = {
   name : '',
   description: '',
@@ -57,8 +57,10 @@ movement = {
   }
 
   createResource() {
+    this.isLoading = true;
     this.inventoryService.createResource(this.newResource).subscribe({
       next: (data) => {
+
         this.refreshResources();
 
          this.newResource = {
@@ -68,14 +70,17 @@ movement = {
           unit: '',
           area: ''
         };
+        this.isLoading = false;
       },
       error: (err) => {
         console.error('Error al crear recurso: ' ,err);
+        this.isLoading = false;
       }
     })
   }
 
   saveMovement() {
+    this.isLoading = true;
     const userId = Number(localStorage.getItem('userId'));
 
     const dto: InventoryMovementDto = {
@@ -97,10 +102,12 @@ movement = {
         this.refreshResources();
 
         this.movement = { typeMovement: 'ENTRADA', reason: '', resourceId: 0, quantity: 0 };
+        this.isLoading = false;
       },
       error: (err) => {
         this.showErrorMovementModal();
         console.error('error al registrar movimiento: ',err)
+        this.isLoading = false;
       }
     })
   }

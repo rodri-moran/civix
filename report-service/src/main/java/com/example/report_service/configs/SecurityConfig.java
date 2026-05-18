@@ -19,6 +19,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.disable())
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/health").permitAll()
+
                         // Noticias públicas
                         .requestMatchers(HttpMethod.GET, "/api/new/public").permitAll()
 

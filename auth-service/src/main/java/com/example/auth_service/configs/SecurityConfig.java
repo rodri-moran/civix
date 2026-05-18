@@ -20,6 +20,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())             // API REST
                 .cors(cors -> cors.disable())             // CORS manejado por Gateway
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers( "/health").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .anyRequest().authenticated()              // el resto requiere token

@@ -1,3 +1,5 @@
+<app-loader [isLoading]="isLoading"></app-loader>
+
 <div class="squads-header mb-4">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb mb-2">
@@ -266,7 +268,7 @@
               Cancelar
             </button>
 
-            <button type="submit" class="btn squad-primary-btn">
+            <button [disabled]="isLoading" type="submit" class="btn squad-primary-btn">
               Crear cuadrilla
             </button>
           </div>
@@ -396,7 +398,7 @@
               Cancelar
             </button>
 
-            <button type="submit" class="btn squad-primary-btn">
+            <button [disabled]="isLoading" type="submit" class="btn squad-primary-btn">
               Guardar cambios
             </button>
           </div>

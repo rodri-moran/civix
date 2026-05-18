@@ -8,13 +8,14 @@ import * as L from 'leaflet';
 //import 'leaflet/dist/leaflet.css';
 import { ResponseDto } from '../../dtos/ReportResponseDto.dto';
 import { ReportServiceService } from '../../services/report-service.service';
+import { LoaderComponent } from '../../shared/loader/loader';
 
 declare const bootstrap: any;
 
 @Component({
   selector: 'app-reportar-incidente',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LoaderComponent],
   templateUrl: './reportar-incidente.html',
   styleUrls: ['./reportar-incidente.css'],
 })
@@ -28,7 +29,7 @@ export class ReportarIncidente {
   address: string = '';
   longitude?: number;
   latitude?: number;
-
+  isLoading = false;  
   isLoggedIn: boolean = false;
 
   private map!: L.Map;
@@ -67,6 +68,8 @@ export class ReportarIncidente {
       this.showErrorModal();
       return;
     }
+      this.isLoading = true;
+
 
     this.service
       .createReport(
@@ -79,7 +82,7 @@ export class ReportarIncidente {
       .subscribe({
         next: (response) => {
           this.showSuccessModal();
-
+          
           try {
             this.registerForm.resetForm();
           } catch (e) {
@@ -89,10 +92,14 @@ export class ReportarIncidente {
           this.title = '';
           this.description = '';
           this.address = '';
+
+          this.isLoading = false;
         },
         error: (err) => {
           console.error('Error al crear reporte', err);
           this.showErrorModal();
+          this.isLoading = false;
+
         },
       });
   }

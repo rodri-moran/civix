@@ -19,6 +19,7 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers( "/health").permitAll()
 
                         .requestMatchers(HttpMethod.GET, "/api/inventory/test").permitAll()
 

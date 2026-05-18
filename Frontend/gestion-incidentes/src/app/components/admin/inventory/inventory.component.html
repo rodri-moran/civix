@@ -217,7 +217,7 @@
               Cancelar
             </button>
 
-            <button class="btn inventory-primary-btn" type="submit">
+            <button [disabled]="isLoading" class="btn inventory-primary-btn" type="submit">
               Crear recurso
             </button>
           </div>
@@ -292,7 +292,7 @@
               Cancelar
             </button>
 
-            <button class="btn inventory-primary-btn" type="submit">
+            <button [disabled]="isLoading" class="btn inventory-primary-btn" type="submit">
               Registrar movimiento
             </button>
           </div>

@@ -755,3 +755,12 @@ textarea.squad-control {
     width: 100%;
   }
 }
+
+.squad-primary-btn:hover:not(:disabled) {
+  background-color: #143d6e;
+}
+
+.squad-primary-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

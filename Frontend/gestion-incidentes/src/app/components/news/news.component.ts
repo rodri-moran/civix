@@ -14,6 +14,7 @@ declare const bootstrap: any;
   imports: [DatePipe, CommonModule, FormsModule, RouterLink],
 })
 export class NewsComponent implements OnInit {
+  isLoading = false;
   categories = [
     'Tecnología',
     'Gestión Pública',
@@ -43,12 +44,15 @@ export class NewsComponent implements OnInit {
   }
 
   createNews() {
+    this.isLoading = true;
+
     const finalCategory =
       this.selectedCategory === 'Otra' ? this.customCategory : this.selectedCategory;
 
     this.newNews.category = finalCategory;
 
     this.newService.createNew(this.newNews).subscribe({
+
       next: (data) => {
         this.newNews = { title: '', description: '', category: '' };
         this.selectedCategory = '';
@@ -62,9 +66,11 @@ export class NewsComponent implements OnInit {
         this.showSuccessNewsModal();
 
         this.loadNews();
+        this.isLoading = false;
       },
       error: (err) => {
         console.error('Error al crear la noticia: ', err);
+        this.isLoading = false;
       },
     });
   }

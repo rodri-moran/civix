@@ -814,3 +814,12 @@ textarea.news-control {
     width: 100%;
   }
 }
+
+.news-primary-btn:not(:disabled) {
+  background-color: #143d6e;
+}
+
+.news-primary-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

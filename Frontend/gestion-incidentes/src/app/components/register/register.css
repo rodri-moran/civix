@@ -62,7 +62,7 @@ body {
 }
 
 .panel-logo-img {
-  height: 36px;
+  height: 90px;
   width: auto;
   filter: brightness(0) invert(1);
 }
@@ -342,7 +342,18 @@ body {
   .login-panel-left {
     width: 100%;
     height: auto;
-    padding: 2rem 1.5rem;
+    min-height: 150px;
+    padding: 1.25rem 1.25rem 1rem;
+    justify-content: flex-start;
+    gap: 0.75rem;
+  }
+
+  .panel-tagline {
+    max-width: 300px;
+    margin: 0;
+    font-size: 1.08rem;
+    line-height: 1.35;
+    font-weight: 700;
   }
 
   .login-panel-right {
@@ -359,4 +370,33 @@ body {
   .form-row-two {
     grid-template-columns: 1fr;
   }
+}
+.login-input.is-invalid {
+  border-color: #dc3545;
+  background-color: #fff;
+}
+
+.login-input.is-invalid:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.12);
+}
+
+.login-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  margin-top: 0.45rem;
+  color: #b42318;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.btn-login:hover:not(:disabled) {
+  background-color: #143d6e;
+}
+
+.btn-login:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

@@ -24,6 +24,8 @@ public class SecurityConfig {
                 .cors(cors -> cors.disable())
                 .authorizeHttpRequests(auth -> auth
 
+                        .requestMatchers("/health").permitAll()
+
                         // Público: solo registro
                         .requestMatchers(HttpMethod.POST, "/api/users/public/register").permitAll()
 

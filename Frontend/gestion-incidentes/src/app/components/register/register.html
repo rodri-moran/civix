@@ -1,7 +1,9 @@
+<app-loader [isLoading]="isLoading"></app-loader>
+
 <div class="login-page">
 
   <!-- Panel izquierdo — idéntico al login -->
-  <div class="login-panel-left">
+  <div class="login-panel-left d-md-flex d-none">
     <div class="panel-brand">
       <img src="/images/logo.png" alt="Civix" class="panel-logo-img" />
     </div>
@@ -55,6 +57,29 @@
     </p>
   </div>
 
+  <!-- Panel izquierdo — pantallas chicas -->
+  <div class="login-panel-left d-md-none">
+    <div class="panel-brand">
+      <img src="/images/logo.png" alt="Civix" class="panel-logo-img" />
+    </div>
+
+    <div class="panel-body">
+      <p class="panel-tagline">
+        Cree su cuenta y comience a contribuir con su comunidad
+      </p>
+
+      <div class="panel-features">
+
+      </div>
+    </div>
+
+    <p class="panel-footer-text">
+      Sistema de uso institucional. Solo usuarios registrados pueden enviar reportes.
+    </p>
+  </div>
+
+
+
   <!-- Panel derecho: formulario -->
   <div class="login-panel-right">
     <div class="login-card">
@@ -64,93 +89,124 @@
         <p class="login-card-subtitle">Complete el formulario para registrarse en el sistema.</p>
       </div>
 
-      <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+      <form (ngSubmit)="onSubmit(registerForm)" #registerForm="ngForm" novalidate>
 
-        <!-- Nombre y Apellido en fila -->
         <div class="form-row-two">
-          <div>
+          <div class="form-field">
             <label for="name" class="form-label-civix">Nombre</label>
-            <input
-              type="text"
-              class="form-control login-input"
-              id="name"
-              name="name"
-              placeholder="Maria"
-              [(ngModel)]="name"
-              required
-            />
+
+            <input type="text" class="form-control login-input" id="name" name="name" placeholder="María"
+              [(ngModel)]="name" #nameControl="ngModel" required maxlength="50"
+              [class.is-invalid]="nameControl.invalid && (nameControl.touched || registerForm.submitted)" />
+
+            <div class="login-error" *ngIf="nameControl.invalid && (nameControl.touched || registerForm.submitted)">
+              <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+
+              <span *ngIf="nameControl.errors?.['required']">
+                El nombre es obligatorio.
+              </span>
+
+              <span *ngIf="nameControl.errors?.['maxlength']">
+                El nombre no puede superar los 50 caracteres.
+              </span>
+            </div>
           </div>
-          <div>
+
+          <div class="form-field">
             <label for="lastName" class="form-label-civix">Apellido</label>
-            <input
-              type="text"
-              class="form-control login-input"
-              id="lastName"
-              name="lastName"
-              placeholder="Gonzalez"
-              [(ngModel)]="lastName"
-              required
-            />
-          </div>
-        </div>
 
-        <div class="form-field">
-          <label for="email" class="form-label-civix">Correo electronico</label>
-          <input
-            type="email"
-            class="form-control login-input"
-            id="email"
-            placeholder="usuario@municipio.gob.ar"
-            name="email"
-            [(ngModel)]="email"
-            #emailControl="ngModel"
-            required
-            email
-          />
-          <!-- Validación de email -->
-          <div
-            class="login-error"
-            *ngIf="emailControl.invalid && (emailControl.dirty || emailControl.touched)"
-          >
-            <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
-            <span *ngIf="emailControl.errors?.['required']">El correo electronico es obligatorio.</span>
-            <span *ngIf="emailControl.errors?.['email']">Ingrese un correo electronico valido.</span>
-          </div>
-        </div>
+            <input type="text" class="form-control login-input" id="lastName" name="lastName" placeholder="González"
+              [(ngModel)]="lastName" #lastNameControl="ngModel" maxlength="50"
+              [class.is-invalid]="lastNameControl.invalid && (lastNameControl.touched || registerForm.submitted)" />
 
-        <div class="form-field">
-          <label for="password" class="form-label-civix">Contrasena</label>
-          <input
-            type="password"
-            class="form-control login-input"
-            id="password"
-            placeholder="Minimo 6 caracteres"
-            name="password"
-            [(ngModel)]="passwordHash"
-            required
-            minlength="6"
-          />
-          <div class="password-requirements">
-            <span class="password-req-title">Requisitos</span>
-            <div class="password-req-item">
-              <i class="bi bi-dot" aria-hidden="true"></i>
-              Minimo 6 caracteres
+            <div class="login-error"
+              *ngIf="lastNameControl.invalid && (lastNameControl.touched || registerForm.submitted)">
+              <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+
+              <span *ngIf="lastNameControl.errors?.['maxlength']">
+                El apellido no puede superar los 50 caracteres.
+              </span>
             </div>
           </div>
         </div>
 
         <div class="form-field">
-          <label for="confirmPassword" class="form-label-civix">Confirmar contrasena</label>
-          <input
-            type="password"
-            class="form-control login-input"
-            id="confirmPassword"
-            placeholder="Repita su contrasena"
-            name="confirmPassword"
-            [(ngModel)]="confirmPassword"
-            required
-            minlength="6"
-          />
+          <label for="email" class="form-label-civix">Correo electrónico</label>
+
+          <input type="email" class="form-control login-input" id="email" placeholder="usuario@municipio.gob.ar"
+            name="email" [(ngModel)]="email" #emailControl="ngModel" required email
+            [class.is-invalid]="emailControl.invalid && (emailControl.touched || registerForm.submitted)" />
+
+          <div class="login-error" *ngIf="emailControl.invalid && (emailControl.touched || registerForm.submitted)">
+            <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+
+            <span *ngIf="emailControl.errors?.['required']">
+              El email es obligatorio.
+            </span>
+
+            <span *ngIf="emailControl.errors?.['email']">
+              El email no es válido.
+            </span>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="password" class="form-label-civix">Contraseña</label>
+
+          <input type="password" class="form-control login-input" id="password" placeholder="Entre 8 y 72 caracteres"
+            name="password" [(ngModel)]="passwordHash" #passwordControl="ngModel" required minlength="8" maxlength="72"
+            [class.is-invalid]="passwordControl.invalid && (passwordControl.touched || registerForm.submitted)" />
+
+          <div class="password-requirements">
+            <span class="password-req-title">Requisitos</span>
+            <div class="password-req-item">
+              <i class="bi bi-dot" aria-hidden="true"></i>
+              Entre 8 y 72 caracteres
+            </div>
+          </div>
+
+          <div class="login-error"
+            *ngIf="passwordControl.invalid && (passwordControl.touched || registerForm.submitted)">
+            <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+
+            <span *ngIf="passwordControl.errors?.['required']">
+              La contraseña es obligatoria.
+            </span>
+
+            <span *ngIf="passwordControl.errors?.['minlength'] || passwordControl.errors?.['maxlength']">
+              La contraseña debe tener entre 8 y 72 caracteres.
+            </span>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="confirmPassword" class="form-label-civix">Confirmar contraseña</label>
+
+          <input type="password" class="form-control login-input" id="confirmPassword"
+            placeholder="Repita su contraseña" name="confirmPassword" [(ngModel)]="confirmPassword"
+            #confirmPasswordControl="ngModel" required minlength="8" maxlength="72" [class.is-invalid]="
+        (confirmPasswordControl.invalid || passwordsDoNotMatch)
+        && (confirmPasswordControl.touched || registerForm.submitted)
+      " />
+
+          <div class="login-error" *ngIf="
+        (confirmPasswordControl.invalid || passwordsDoNotMatch)
+        && (confirmPasswordControl.touched || registerForm.submitted)
+      ">
+            <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+
+            <span *ngIf="confirmPasswordControl.errors?.['required']">
+              Debe confirmar la contraseña.
+            </span>
+
+            <span *ngIf="confirmPasswordControl.errors?.['minlength'] || confirmPasswordControl.errors?.['maxlength']">
+              La confirmación debe tener entre 8 y 72 caracteres.
+            </span>
+
+            <span *ngIf="passwordsDoNotMatch && !confirmPasswordControl.errors">
+              Las contraseñas no coinciden.
+            </span>
+          </div>
         </div>
 
         <div class="login-error" *ngIf="errorMessage">
@@ -158,7 +214,7 @@
           {{ errorMessage }}
         </div>
 
-        <button type="submit" class="btn-login">
+        <button type="submit" class="btn-login" [disabled]="isLoading || !isRegisterFormValid">
           <i class="bi bi-person-plus" aria-hidden="true"></i>
           Crear cuenta
         </button>
