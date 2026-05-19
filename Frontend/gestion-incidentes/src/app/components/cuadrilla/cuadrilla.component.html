@@ -1,3 +1,5 @@
+<app-loader [isLoading]="isResolvingReport"></app-loader>
+
 <section class="supervisor-page">
 
   <!-- HEADER -->
@@ -14,7 +16,7 @@
     <div class="supervisor-hero">
       <div>
         <span class="supervisor-eyebrow">Operación municipal</span>
-        <h1>Panel de supervisor</h1>
+        <h1>Panel de supervisor1</h1>
         <p>
           Seguimiento de reportes asignados, actualización de estados y control de tareas
           operativas de la cuadrilla.
@@ -546,7 +548,7 @@
     <div class="modal-content">
       <div class="modal-header bg-success text-white">
         <h5 class="modal-title">Recursos utilizados</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
+        <button class="btn-close" data-bs-dismiss="modal" [disabled]="isResolvingReport"></button>
       </div>
 
       <div class="modal-body">
@@ -580,9 +582,20 @@
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button class="btn btn-success" (click)="confirmResolve()">Confirmar resolución</button>
-      </div>
+        <button class="btn btn-secondary" [disabled]="isResolvingReport" (click)="cancelResolve()">Cancelar</button>
+<button
+  type="button"
+  class="btn btn-primary"
+  [disabled]="isResolvingReport"
+  (click)="confirmResolve()"
+>
+  <span *ngIf="!isResolvingReport">Confirmar resolución</span>
+
+  <span *ngIf="isResolvingReport" class="d-inline-flex align-items-center gap-2">
+    <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+    Resolviendo...
+  </span>
+</button>      </div>
     </div>
   </div>
 </div>

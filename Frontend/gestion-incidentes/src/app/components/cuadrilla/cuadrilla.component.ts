@@ -9,6 +9,7 @@ import { ResourceDto } from '../../dtos/ResourceDto';
 import { Squad } from '../../dtos/SquadDto.dto';
 import { SquadServiceService } from '../../services/squad-service.service';
 import { RouterLink } from '@angular/router';
+import { LoaderComponent } from '../../shared/loader/loader';
 declare var bootstrap: any;
 
 interface Report {
@@ -26,7 +27,7 @@ interface Report {
 
 @Component({
   selector: 'app-cuadrilla',
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, LoaderComponent],
   templateUrl: './cuadrilla.component.html',
   styleUrl: './cuadrilla.component.css',
 })
@@ -37,6 +38,9 @@ export class CuadrillaComponent implements OnInit {
     RESOLVED: { text: 'Resuelto', class: 'bg-success' },
   };
   private map!: L.Map;
+
+  isLoading = false;
+  isResolvingReport = false;
 
   private readonly defaultIcon = L.icon({
     iconUrl: '/leaflet/marker-icon.png',
@@ -52,6 +56,7 @@ export class CuadrillaComponent implements OnInit {
   reports: Report[] = [];
   allReports: Report[] = [];
   reportPendingResolve?: Report;
+  previousStatusBeforeResolve?: string;
   resourcesUsed: {
     resourceId: number | null;
     quantity: number;
@@ -122,30 +127,43 @@ export class CuadrillaComponent implements OnInit {
       left: `${rect.left}px`,
     };
   }
-  onStatusSelect(report: Report, newStatus: string) {
-    report.status = newStatus;
-    this.openDropdownId = null;
+onStatusSelect(report: Report, newStatus: string) {
+  const previousStatus = report.status;
 
-    if (newStatus === 'RESOLVED') {
-      this.inventoryService.getAllResources().subscribe({
-        next: (data) => {
-          this.resources = data;
-        },
-        error: (err) => console.error('Error al traer recursos: ', err),
-      });
-      this.reportPendingResolve = report;
-      this.openResourcesModal();
-      return;
-    }
+  // Cambio visual inmediato
+  report.status = newStatus;
+  this.openDropdownId = null;
 
-    this.service.updateStatus(report.id, newStatus).subscribe({
+  if (newStatus === 'RESOLVED') {
+    this.previousStatusBeforeResolve = previousStatus;
+    this.reportPendingResolve = report;
+
+    this.inventoryService.getAllResources().subscribe({
       next: (data) => {
+        this.resources = data;
+        this.openResourcesModal();
       },
       error: (err) => {
-        console.error('Error actualizando el estado del reporte: ', err);
+        console.error('Error al traer recursos: ', err);
+
+        report.status = previousStatus;
+        this.reportPendingResolve = undefined;
+        this.previousStatusBeforeResolve = undefined;
       },
     });
+
+    return;
   }
+
+  this.service.updateStatus(report.id, newStatus).subscribe({
+    next: () => {},
+    error: (err) => {
+      console.error('Error actualizando el estado del reporte: ', err);
+
+      report.status = previousStatus;
+    },
+  });
+}
 
   openResourcesModal() {
     const modalEl = document.getElementById('resourcesModal');
@@ -200,32 +218,61 @@ export class CuadrillaComponent implements OnInit {
     this.resourcesUsed.splice(index, 1);
   }
 
-  confirmResolve() {
-    if (!this.reportPendingResolve) return;
+confirmResolve() {
+  if (!this.reportPendingResolve || this.isResolvingReport) return;
 
-    const dto = {
-      items: this.resourcesUsed
-        .filter((r) => r.resourceId !== null && r.quantity > 0)
-        .map((r) => ({
-          resourceId: r.resourceId!,
-          quantity: r.quantity,
-        })),
-      typeMovement: 'SALIDA',
-      userId: Number(localStorage.getItem('userId')),
-      reportId: this.reportPendingResolve.id,
-      reason: 'Resolución de reporte',
-    };
+  this.isResolvingReport = true;
 
-    this.service.updateStatus(this.reportPendingResolve.id, 'RESOLVED', dto).subscribe({
-      next: () => {
-        this.reportPendingResolve!.status = 'RESOLVED';
-        this.closeResourcesModal();
-        this.resourcesUsed = [];
-        this.reportPendingResolve = undefined;
-      },
-      error: (err) => console.error(err),
-    });
+  const dto = {
+    items: this.resourcesUsed
+      .filter((r) => r.resourceId !== null && r.quantity > 0)
+      .map((r) => ({
+        resourceId: r.resourceId!,
+        quantity: r.quantity,
+      })),
+    typeMovement: 'SALIDA',
+    userId: Number(localStorage.getItem('userId')),
+    reportId: this.reportPendingResolve.id,
+    reason: 'Resolución de reporte',
+  };
+
+  this.service.updateStatus(this.reportPendingResolve.id, 'RESOLVED', dto).subscribe({
+    next: () => {
+      this.closeResourcesModal();
+
+      this.resourcesUsed = [];
+      this.reportPendingResolve = undefined;
+      this.previousStatusBeforeResolve = undefined;
+
+      this.isResolvingReport = false;
+    },
+    error: (err) => {
+      console.error(err);
+
+      if (this.reportPendingResolve && this.previousStatusBeforeResolve) {
+        this.reportPendingResolve.status = this.previousStatusBeforeResolve;
+      }
+
+      this.resourcesUsed = [];
+      this.reportPendingResolve = undefined;
+      this.previousStatusBeforeResolve = undefined;
+
+      this.isResolvingReport = false;
+    },
+  });
+}
+
+cancelResolve() {
+  if (this.reportPendingResolve && this.previousStatusBeforeResolve) {
+    this.reportPendingResolve.status = this.previousStatusBeforeResolve;
   }
+
+  this.resourcesUsed = [];
+  this.reportPendingResolve = undefined;
+  this.previousStatusBeforeResolve = undefined;
+
+  this.closeResourcesModal();
+}
 
   closeResourcesModal() {
     const modalEl = document.getElementById('resourcesModal');
